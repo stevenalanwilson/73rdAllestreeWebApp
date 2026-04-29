@@ -1,0 +1,25 @@
+services:
+  web:
+    build:
+      context: .
+      target: deps          # image already has node_modules installed
+    working_dir: /app
+    command: >
+      sh -c "pnpm install --frozen-lockfile &&
+             pnpm --dir apps/web dev --hostname 0.0.0.0"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app                                    # source — enables hot reload
+      - root_node_modules:/app/node_modules       # keep container node_modules
+      - web_node_modules:/app/apps/web/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+    env_file:
+      - path: .env.local
+        required: false
+
+volumes:
+  root_node_modules:
+  web_node_modules:
