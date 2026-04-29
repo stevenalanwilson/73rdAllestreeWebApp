@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400;1,6..12,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    font-family: 'Nunito Sans', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-white text-scout-navy;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  /* Visible focus rings — never remove without a replacement */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-group-red;
+  }
+}

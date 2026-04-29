@@ -212,14 +212,23 @@ reliability and ease of handover to future volunteers.
 ```
 73rd-allestree-scouts/
 ├── apps/
-│   └── web/            Next.js website application
+│   └── web/                    Next.js website application
+│       ├── app/
+│       │   ├── globals.css     Base Tailwind reset and font import
+│       │   ├── layout.tsx      Root layout with metadata
+│       │   └── page.tsx        Dev environment check page (placeholder)
+│       ├── next.config.mjs
+│       ├── postcss.config.js
+│       ├── tailwind.config.ts  All brand colour tokens (3-tier hierarchy)
+│       └── tsconfig.json
 ├── packages/
-│   ├── ui/             Shared component library (Storybook pattern library)
-│   └── tokens/         Design tokens — colours, typography, section config
-├── Dockerfile          Container build instructions
-├── docker-compose.yml  Local development stack
-├── CLAUDE.md           AI development conventions (see below)
-└── README.md           This file
+│   ├── ui/                     Shared component library (planned)
+│   └── tokens/                 Design tokens — colours, section config (planned)
+├── .env.example                Required environment variables
+├── pnpm-workspace.yaml         Monorepo workspace declaration
+├── turbo.json                  Turborepo pipeline config
+├── CLAUDE.md                   AI development conventions (see below)
+└── README.md                   This file
 ```
 
 ---
@@ -243,19 +252,18 @@ cd website
 pnpm install
 
 # Start the development server
-pnpm dev
+pnpm --dir apps/web dev
 ```
 
-The site will be available at `http://localhost:3000`.
+The site will be available at `http://localhost:3000`. You will see a
+development environment check page confirming the server is running and
+showing the brand colour tokens — this is a placeholder and will be
+replaced by the real homepage.
 
 ### Running Storybook (pattern library)
 
-```bash
-pnpm storybook
-```
-
-Storybook opens at `http://localhost:6006` and shows every component in
-isolation across all section themes.
+Storybook is not yet configured — it will be added when the `packages/ui`
+component library is scaffolded.
 
 ### Environment variables
 
@@ -271,13 +279,17 @@ Required variables are documented in `.env.example`. Never commit real values.
 ### Useful commands
 
 ```bash
-pnpm dev          Start local development server
-pnpm build        Production build
+pnpm --dir apps/web dev      Start local development server
+pnpm --dir apps/web build    Production build
+pnpm --dir apps/web lint     Lint and type-check
+
+# Once the full monorepo pipeline is configured (via Turbo):
+pnpm dev          Start all workspace dev servers
+pnpm build        Build all workspaces
+pnpm lint         Lint all workspaces
 pnpm test         Run unit and component tests
 pnpm test:e2e     Run Playwright end-to-end tests
 pnpm test:a11y    Run accessibility audit
-pnpm lint         Lint and type-check
-pnpm storybook    Start Storybook pattern library
 pnpm audit        Check for security vulnerabilities
 ```
 

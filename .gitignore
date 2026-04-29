@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# Turbo
+.turbo/
+
+# Env files — NEVER commit real values
+.env
+.env.local
+.env.production
+
+# Build outputs
+dist/
+build/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
