@@ -224,8 +224,12 @@ reliability and ease of handover to future volunteers.
 ├── packages/
 │   ├── ui/                     Shared component library (planned)
 │   └── tokens/                 Design tokens — colours, section config (planned)
+├── .dockerignore
 ├── .env.example                Required environment variables
+├── Dockerfile                  Multi-stage production container build
+├── docker-compose.yml          Local development via Docker
 ├── pnpm-workspace.yaml         Monorepo workspace declaration
+├── railway.toml                Railway deployment config (forces Docker builder)
 ├── turbo.json                  Turborepo pipeline config
 ├── CLAUDE.md                   AI development conventions (see below)
 └── README.md                   This file
@@ -237,21 +241,34 @@ reliability and ease of handover to future volunteers.
 
 ### Prerequisites
 
+Choose one of two local development approaches:
+
+**Option A — Docker (recommended, no Node required locally)**
+- [Docker Desktop](https://docker.com) 24 or later
+
+**Option B — local Node**
 - [Node.js](https://nodejs.org) 20 or later
 - [pnpm](https://pnpm.io) 9 or later (`npm install -g pnpm`)
-- [Docker](https://docker.com) (optional, for container testing)
 
 ### Local development
+
+**With Docker:**
 
 ```bash
 # Clone the repository
 git clone https://github.com/73rd-allestree-scouts/website.git
 cd website
 
-# Install dependencies
-pnpm install
+# Start the dev server (installs dependencies on first run)
+docker compose up
+```
 
-# Start the development server
+**With Node/pnpm directly:**
+
+```bash
+git clone https://github.com/73rd-allestree-scouts/website.git
+cd website
+pnpm install
 pnpm --dir apps/web dev
 ```
 
@@ -306,8 +323,9 @@ any container-capable platform. It is not tied to a specific cloud provider.
 2. GitHub Actions automatically runs the full quality pipeline (see below)
 3. If all checks pass, a new Docker image is built and pushed to the
    GitHub Container Registry
-4. Railway pulls the new image and deploys it automatically
-5. The live site is updated — typically within a few minutes of merge
+4. Railway reads `railway.toml` and builds using the `Dockerfile`
+5. The new container is deployed automatically
+6. The live site is updated — typically within a few minutes of merge
 
 ### Environments
 
