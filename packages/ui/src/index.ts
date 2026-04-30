@@ -1,7 +1,7 @@
 export { SectionProvider } from './context/SectionProvider'
 export { useSectionTheme } from './hooks/useSectionTheme'
 export type { SectionTheme } from './hooks/useSectionTheme'
-export { SiteHeader } from './components/SiteHeader'
+export { SiteHeader, NavItem, Breadcrumb } from './components/SiteHeader'
 export type { NavItemConfig, BreadcrumbItem } from './components/SiteHeader'
 
 // Re-export tokens types for consumer convenience

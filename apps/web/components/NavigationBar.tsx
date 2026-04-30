@@ -10,8 +10,9 @@ const BASE_NAV_ITEMS: NavItemConfig[] = [
   { label: 'Beavers',   href: '/beavers' },
   { label: 'Cubs',      href: '/cubs' },
   { label: 'Scouts',    href: '/scouts' },
-  { label: 'About',     href: '/about' },
-  { label: 'Contact',   href: '/contact' },
+  { label: 'About',      href: '/about' },
+  { label: 'Contact',    href: '/contact' },
+  { label: 'Components', href: '/components' },
 ]
 
 function buildBreadcrumbs(

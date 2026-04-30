@@ -1,3 +1,5 @@
 export { SiteHeader } from './SiteHeader'
+export { NavItem } from './NavItem'
+export { Breadcrumb } from './Breadcrumb'
 export type { NavItemConfig } from './NavItem'
 export type { BreadcrumbItem } from './Breadcrumb'
