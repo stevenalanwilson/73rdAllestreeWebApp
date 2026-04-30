@@ -8,14 +8,18 @@ RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 FROM base AS deps
 WORKDIR /app
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY apps/web/package.json ./apps/web/package.json
+COPY apps/web/package.json             ./apps/web/package.json
+COPY packages/ui/package.json          ./packages/ui/package.json
+COPY packages/tokens/package.json      ./packages/tokens/package.json
 RUN pnpm install --frozen-lockfile
 
 # ── Stage 3: builder — compile the Next.js app ────────────────────────────────
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY --from=deps /app/node_modules                  ./node_modules
+COPY --from=deps /app/apps/web/node_modules         ./apps/web/node_modules
+COPY --from=deps /app/packages/ui/node_modules      ./packages/ui/node_modules
+COPY --from=deps /app/packages/tokens/node_modules  ./packages/tokens/node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm --dir apps/web build
