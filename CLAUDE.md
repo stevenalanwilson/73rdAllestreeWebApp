@@ -482,12 +482,103 @@ Run `pnpm a11y` locally before raising a PR.
 - **Tokens only.** All colours must reference a token from `tailwind.config.ts`.
   Never use arbitrary values like `bg-[#CC2222]` — use `bg-squirrels-red-400`.
 - **No inline styles** for colours, spacing, or typography. Tailwind classes only.
-- **Responsive first.** Default styles are mobile. Use `md:` and `lg:` to
-  scale up. Never design desktop-first.
+- **Responsive first.** Default styles are mobile (375px). Use `md:` for
+  tablet (768px) and `lg:` for desktop (1280px). Every component must be
+  designed and verified at all three breakpoints. Never design desktop-first.
 - **Dark mode.** Use `dark:` variants. The site supports OS-level dark mode.
   Every colour token must have a legible dark-mode pairing.
 - **No `@apply` in component files.** Tailwind classes belong in JSX.
   `@apply` is allowed only in `globals.css` for base element resets.
+
+---
+
+## Responsive design
+
+Every component and every page must work correctly at all three breakpoints.
+This is non-negotiable — the site is used on phones by young people and on
+desktops by parents and leaders.
+
+### Breakpoints
+
+| Name | Tailwind prefix | Min width | Typical device |
+|---|---|---|---|
+| Mobile | (default) | 375px | Phones, small screens |
+| Tablet | `md:` | 768px | Tablets, large phones landscape |
+| Desktop | `lg:` | 1280px | Laptops, monitors |
+
+All Tailwind responsive prefixes map to these. `sm:` (640px) may be used for
+in-between adjustments but is not a primary design target.
+
+### Mobile-first rules
+
+- Write default (unprefixed) classes for mobile layout first
+- Add `md:` overrides for tablet, then `lg:` overrides for desktop
+- Never write a `lg:` rule without first considering what the mobile layout
+  should be — the mobile style is always the fallback
+- Text size, spacing, and column counts must all scale gracefully between
+  breakpoints — no abrupt reflows or clipping
+
+### What must be checked at each breakpoint
+
+| Element | Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|---|---|---|---|
+| Navigation | Collapsed to hamburger / bottom bar | May show top-level items | Full nav with all section links visible |
+| Hero banners | Single-column, full-width image | Side-by-side text + image | Wider layout, larger heading |
+| Cards (EventCard, SectionCard) | Full-width stack | 2-column grid | 3- or 4-column grid |
+| Body text | 16px minimum, single column | Can widen | Max ~72ch line length |
+| Tap/click targets | Minimum 44×44px | Same | Same |
+| Section colour backgrounds | Full-bleed | Full-bleed | Full-bleed |
+| Unit icons in nav chips | 24px, legible | 24px+ | 24px+ |
+
+### Storybook viewport testing
+
+Every component story must include the three canonical viewports using the
+Storybook viewport addon. Add this to `.storybook/preview.tsx`:
+
+```tsx
+export const parameters = {
+  viewport: {
+    defaultViewport: 'mobile',
+    viewports: {
+      mobile:  { name: 'Mobile',  styles: { width: '375px',  height: '812px' } },
+      tablet:  { name: 'Tablet',  styles: { width: '768px',  height: '1024px' } },
+      desktop: { name: 'Desktop', styles: { width: '1280px', height: '800px' } },
+    },
+  },
+}
+```
+
+When writing stories for layout components (HeroBanner, SectionCard, patterns),
+add explicit story variants at each viewport so the difference is visible in
+the pattern library:
+
+```tsx
+export const Mobile: StoryObj  = { parameters: { viewport: { defaultViewport: 'mobile'  } } }
+export const Tablet: StoryObj  = { parameters: { viewport: { defaultViewport: 'tablet'  } } }
+export const Desktop: StoryObj = { parameters: { viewport: { defaultViewport: 'desktop' } } }
+```
+
+### Playwright responsive tests
+
+E2E tests must assert layout at all three breakpoints for any component that
+changes layout across viewports:
+
+```ts
+const VIEWPORTS = [
+  { name: 'mobile',  width: 375,  height: 812  },
+  { name: 'tablet',  width: 768,  height: 1024 },
+  { name: 'desktop', width: 1280, height: 800  },
+]
+
+for (const vp of VIEWPORTS) {
+  test(`section page renders correctly at ${vp.name}`, async ({ page }) => {
+    await page.setViewportSize({ width: vp.width, height: vp.height })
+    await page.goto('/beavers')
+    await expect(page.getByRole('main')).toBeVisible()
+    // assert layout-specific elements at this viewport
+  })
+}
+```
 
 ---
 
@@ -508,6 +599,7 @@ Every PR must maintain or improve coverage. The CI gate is:
 | Section theming | Jest | `useSectionTheme` returns correct values |
 | Navigation | Playwright | User can reach all section/unit pages |
 | Colour rendering | Playwright | Section pages render correct background |
+| Responsive layout | Playwright | Key pages checked at 375px, 768px, 1280px |
 | Forms | Playwright | Contact form submits, validates |
 
 ### Test file conventions
@@ -667,6 +759,7 @@ docs: update CLAUDE.md with Storybook conventions
 ### PR checklist
 Every PR description must include:
 - [ ] Does this affect section theming? If yes, tested all 8 units
+- [ ] Has the component been checked at mobile (375px), tablet (768px), and desktop (1280px)?
 - [ ] Has `pnpm a11y` been run locally and passes?
 - [ ] Are new UI components in `packages/ui`? (If not, is there a documented reason they are app-specific?)
 - [ ] Does every new component in `packages/ui` have a co-located `.stories.tsx` file in this PR?
@@ -711,6 +804,9 @@ Every PR description must include:
 - **Never scaffold `packages/ui` before `packages/tokens` is in place.**
   The component library depends on the token package — building them out of
   order creates import errors that are expensive to untangle.
+- **Never verify a component at only one viewport.** Mobile, tablet (768px),
+  and desktop (1280px) are all required. A layout that only works on desktop
+  is not finished.
 
 ---
 
@@ -767,6 +863,12 @@ Identify the story variants before writing the component:
 Any type describing a section, unit, colour, or brand concept must be
 imported from `@73rd/tokens`. Do not redeclare these types locally.
 
+**6. Have you planned the layout at all three breakpoints?**
+Before writing any JSX, sketch (even mentally) what the component looks like
+at mobile (375px), tablet (768px), and desktop (1280px). If the layout
+changes across breakpoints, plan the Tailwind responsive classes up front —
+retrofitting responsive behaviour is harder than building it in from the start.
+
 ---
 
 ## Questions to ask before starting any task
@@ -776,7 +878,7 @@ imported from `@73rd/tokens`. Do not redeclare these types locally.
 3. Does this work at all 8 unit routes, or just the one I'm testing?
 4. Have I checked colour contrast for all section background colours?
 5. Is there a Storybook story for this, and does it show all relevant states?
-6. What does this look like on mobile (375px) as well as desktop?
+6. What does this look like at mobile (375px), tablet (768px), and desktop (1280px)?
 7. Is there a Sanity schema implication — do leaders need to edit this content?
 
 ---
