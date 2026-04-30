@@ -1,189 +1,102 @@
 import type { Metadata } from 'next'
+import { SECTIONS } from '@73rd/tokens'
 
 export const metadata: Metadata = {
-  title: 'Dev Environment Check',
+  title: '73rd Allestree Scout Group',
+  description:
+    'Scouting for young people aged 4–14 in Allestree, Derby. Squirrels, Beavers, Cubs and Scouts.',
 }
 
-// ── Types ──────────────────────────────────────────────────────────────────
-
-interface ColourSwatch {
-  label: string
-  hex: string
-  tailwindBg: string
-}
-
-interface EnvVar {
-  key: string
-  label: string
-}
-
-// ── Data ───────────────────────────────────────────────────────────────────
-
-const COLOUR_SWATCHES: ColourSwatch[] = [
-  { label: 'Group Red',    hex: '#B31C27', tailwindBg: 'bg-group-red' },
-  { label: 'Scout Navy',   hex: '#001323', tailwindBg: 'bg-scout-navy' },
-  { label: 'Scout Purple', hex: '#4D2177', tailwindBg: 'bg-scout-purple' },
-  { label: 'Scout Teal',   hex: '#00A794', tailwindBg: 'bg-scout-teal' },
-  { label: 'Squirrels',    hex: '#9B1C1C', tailwindBg: 'bg-squirrels' },
-  { label: 'Beavers',      hex: '#004F6E', tailwindBg: 'bg-beavers' },
-  { label: 'Cubs',         hex: '#4A5E06', tailwindBg: 'bg-cubs' },
-  { label: 'Scouts',       hex: '#0F3D0F', tailwindBg: 'bg-scouts' },
-]
-
-const STACK_ITEMS = [
-  { name: 'Next.js',    version: '14',  style: 'bg-scout-navy text-white' },
-  { name: 'TypeScript', version: '5.x', style: 'bg-beavers text-white' },
-  { name: 'Tailwind',   version: '3',   style: 'bg-scouts text-white' },
-  { name: 'Turbo',      version: '2.x', style: 'bg-scout-purple text-white' },
-  { name: 'pnpm',       version: '9.x', style: 'bg-cubs text-white' },
-]
-
-const ENV_VARS: EnvVar[] = [
-  { key: 'NEXT_PUBLIC_SITE_URL', label: 'Site URL (public)' },
-  { key: 'SANITY_PROJECT_ID',    label: 'Sanity project ID' },
-  { key: 'SANITY_DATASET',       label: 'Sanity dataset' },
-  { key: 'SANITY_API_TOKEN',     label: 'Sanity API token' },
-]
-
-// ── Sub-components ─────────────────────────────────────────────────────────
-
-function StatusBadge({ ok }: { ok: boolean }) {
+export default function HomePage() {
   return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-        ok ? 'bg-cubs text-white' : 'bg-squirrels text-white'
-      }`}
-    >
-      {ok ? 'Set' : 'Not set'}
-    </span>
-  )
-}
+    <div className="min-h-screen bg-gray-50">
 
-function SectionHeading({ id, children }: { id: string; children: React.ReactNode }) {
-  return (
-    <h2 id={id} className="mb-4 text-lg font-bold text-scout-navy">
-      {children}
-    </h2>
-  )
-}
-
-// ── Page ───────────────────────────────────────────────────────────────────
-
-export default function DevCheckPage() {
-  const envStatus = ENV_VARS.map((v) => ({
-    ...v,
-    isSet: Boolean(process.env[v.key]),
-  }))
-
-  return (
-    <main className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-3xl space-y-8">
-
-        {/* Header */}
-        <header className="rounded-2xl bg-scout-navy p-8 text-center">
-          <div aria-hidden="true" className="mx-auto mb-4 h-1.5 w-16 rounded-full bg-group-red" />
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            73rd Allestree Scout Group
+      {/* Hero */}
+      <section aria-label="Welcome" className="bg-scout-purple py-24 text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div aria-hidden="true" className="mb-6 h-1 w-16 rounded-full bg-group-red" />
+          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
+            73rd Allestree<br />
+            Scout Group
           </h1>
-          <p className="mt-2 text-lg text-gray-300">Derby, UK</p>
-        </header>
-
-        {/* Dev environment status */}
-        <section aria-labelledby="status-heading" className="rounded-2xl border-2 border-cubs bg-white p-6">
-          <SectionHeading id="status-heading">Development environment status</SectionHeading>
-          <div className="flex items-center gap-4">
-            <span
-              aria-hidden="true"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cubs text-white font-bold text-lg"
+          <p className="mt-6 max-w-xl text-xl text-white/70">
+            Adventure, friendship, and skills for young people aged 4–14 in Allestree, Derby.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <a
+              href="/contact"
+              className="rounded-lg bg-group-red px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
             >
-              ✓
-            </span>
-            <div>
-              <p className="font-semibold text-scout-navy">Development environment ready</p>
-              <p className="text-sm text-gray-600">
-                Next.js dev server is running on{' '}
-                <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs">
-                  localhost:3000
-                </code>
-              </p>
-            </div>
+              Join us
+            </a>
+            <a
+              href="/about"
+              className="rounded-lg border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
+            >
+              About the group
+            </a>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Tech stack */}
-        <section aria-labelledby="stack-heading" className="rounded-2xl bg-white p-6 shadow-sm">
-          <SectionHeading id="stack-heading">Tech stack</SectionHeading>
-          <ul className="flex flex-wrap gap-3" role="list">
-            {STACK_ITEMS.map((item) => (
-              <li key={item.name}>
-                <span className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold ${item.style}`}>
-                  {item.name}
-                  <span className="rounded bg-white/20 px-1.5 py-0.5 text-xs font-normal">
-                    v{item.version}
+      {/* Sections */}
+      <section
+        aria-labelledby="sections-heading"
+        className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+      >
+        <h2
+          id="sections-heading"
+          className="mb-2 text-3xl font-extrabold tracking-tight text-scout-navy"
+        >
+          Our sections
+        </h2>
+        <p className="mb-10 text-gray-500">
+          Find the right section for your child&apos;s age group.
+        </p>
+        <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {SECTIONS.map((section) => (
+            <li key={section.slug}>
+              <a
+                href={`/${section.slug}`}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
+              >
+                <div className={`${section.colour} h-2`} aria-hidden="true" />
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                    {section.ageRange}
+                  </p>
+                  <h3 className="text-xl font-bold text-scout-navy group-hover:text-scout-purple">
+                    {section.name}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm text-gray-500">
+                    Two {section.unitGroupName.toLowerCase()}s of young adventurers meeting weekly.
+                  </p>
+                  <span className="mt-4 text-sm font-semibold text-scout-purple">
+                    Find out more →
                   </span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        {/* Brand colour tokens */}
-        <section aria-labelledby="colours-heading" className="rounded-2xl bg-white p-6 shadow-sm">
-          <SectionHeading id="colours-heading">Brand colour tokens</SectionHeading>
-          <p className="mb-4 text-sm text-gray-600">
-            Visual check that Tailwind tokens resolve to the correct hex values.
+      {/* Join CTA */}
+      <section aria-label="Join the group" className="bg-group-red py-20 text-white">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-extrabold tracking-tight">Ready to get started?</h2>
+          <p className="mx-auto mt-4 max-w-md text-lg text-white/80">
+            Get in touch and we&apos;ll help you find the right section for your child.
           </p>
-          <ul
-            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
-            role="list"
-            aria-label="Brand colour swatches"
+          <a
+            href="/contact"
+            className="mt-8 inline-flex items-center rounded-lg bg-white px-8 py-3 text-sm font-semibold text-group-red transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
           >
-            {COLOUR_SWATCHES.map((swatch) => (
-              <li key={swatch.label} className="overflow-hidden rounded-lg border border-gray-200">
-                <div
-                  className={`${swatch.tailwindBg} h-16`}
-                  aria-hidden="true"
-                />
-                <div className="bg-white px-3 py-2">
-                  <p className="text-xs font-semibold text-scout-navy">{swatch.label}</p>
-                  <p className="font-mono text-xs text-gray-500">{swatch.hex}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+            Contact us
+          </a>
+        </div>
+      </section>
 
-        {/* Environment variables */}
-        <section aria-labelledby="env-heading" className="rounded-2xl bg-white p-6 shadow-sm">
-          <SectionHeading id="env-heading">Environment variables</SectionHeading>
-          <p className="mb-4 text-sm text-gray-600">
-            Copy{' '}
-            <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs">.env.example</code>
-            {' '}to{' '}
-            <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs">.env.local</code>
-            {' '}and fill in the values.
-          </p>
-          <ul className="divide-y divide-gray-100" role="list">
-            {envStatus.map(({ key, label, isSet }) => (
-              <li key={key} className="flex items-center justify-between py-3">
-                <div>
-                  <code className="text-sm font-mono font-semibold text-scout-navy">{key}</code>
-                  <p className="text-xs text-gray-500">{label}</p>
-                </div>
-                <StatusBadge ok={isSet} />
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* Footer */}
-        <footer className="text-center">
-          <p className="text-xs text-gray-400">
-            This page confirms the dev environment is configured — it will be replaced by the real homepage.
-          </p>
-        </footer>
-
-      </div>
-    </main>
+    </div>
   )
 }
