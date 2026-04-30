@@ -16,10 +16,9 @@ RUN pnpm install --frozen-lockfile
 # ── Stage 3: builder — compile the Next.js app ────────────────────────────────
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules                  ./node_modules
-COPY --from=deps /app/apps/web/node_modules         ./apps/web/node_modules
-COPY --from=deps /app/packages/ui/node_modules      ./packages/ui/node_modules
-COPY --from=deps /app/packages/tokens/node_modules  ./packages/tokens/node_modules
+COPY --from=deps /app/node_modules              ./node_modules
+COPY --from=deps /app/apps/web/node_modules     ./apps/web/node_modules
+COPY --from=deps /app/packages/ui/node_modules  ./packages/ui/node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm --dir apps/web build
