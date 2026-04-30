@@ -4,7 +4,6 @@ dockerfilePath = "Dockerfile"
 
 [deploy]
 startCommand = "node apps/web/server.js"
-port = 3000
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
