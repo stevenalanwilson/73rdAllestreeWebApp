@@ -272,7 +272,7 @@ export function ComponentsClient() {
               <li className="flex gap-2"><span className="mt-0.5 text-scout-purple">→</span> Focus is trapped within the overlay while open</li>
               <li className="flex gap-2"><span className="mt-0.5 text-scout-purple">→</span> Pressing <kbd className="rounded border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-mono text-xs">Esc</kbd> or clicking the close button dismisses the menu</li>
               <li className="flex gap-2"><span className="mt-0.5 text-scout-purple">→</span> Focus returns to the hamburger trigger on close</li>
-              <li className="flex gap-2"><span className="mt-0.5 text-scout-purple">→</span> <code className="rounded bg-gray-100 px-1 font-mono text-xs">role="dialog"</code> + <code className="rounded bg-gray-100 px-1 font-mono text-xs">aria-modal="true"</code> for screen readers</li>
+              <li className="flex gap-2"><span className="mt-0.5 text-scout-purple">→</span> <code className="rounded bg-gray-100 px-1 font-mono text-xs">{'role="dialog"'}</code> + <code className="rounded bg-gray-100 px-1 font-mono text-xs">{'aria-modal="true"'}</code> for screen readers</li>
             </ul>
           </div>
           <PropsTable>
@@ -332,7 +332,7 @@ const {
               <span className="font-mono text-xs text-gray-400">Used by squirrels, beavers, cubs, scouts page.tsx</span>
             </div>
             <div className="space-y-1.5 p-6 text-sm text-gray-600">
-              <p>A client component that reads <code className="rounded bg-gray-100 px-1 font-mono text-xs">useSectionTheme()</code> for the hero background and CTA button colour, and renders the section's two unit cards from <code className="rounded bg-gray-100 px-1 font-mono text-xs">SectionConfig.units</code>.</p>
+              <p>A client component that reads <code className="rounded bg-gray-100 px-1 font-mono text-xs">useSectionTheme()</code> for the hero background and CTA button colour, and renders the section&apos;s two unit cards from <code className="rounded bg-gray-100 px-1 font-mono text-xs">SectionConfig.units</code>.</p>
               <p className="mt-3">Visit <a href="/beavers" className="font-semibold text-scout-purple hover:underline">/beavers</a>, <a href="/cubs" className="font-semibold text-scout-purple hover:underline">/cubs</a>, <a href="/squirrels" className="font-semibold text-scout-purple hover:underline">/squirrels</a>, or <a href="/scouts" className="font-semibold text-scout-purple hover:underline">/scouts</a> to see it live.</p>
             </div>
           </div>
