@@ -35,8 +35,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public          ./apps/w
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static    ./apps/web/.next/static
 
 USER nextjs
-# PORT is injected by Railway at runtime — do not hardcode it here.
-# Next.js standalone server.js reads process.env.PORT automatically.
+EXPOSE 3000
 ENV HOSTNAME="0.0.0.0"
 
 # server.js is emitted by standalone into the monorepo subdirectory
