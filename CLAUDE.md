@@ -22,7 +22,7 @@ It serves parents, young people, and prospective members across four sections
 
 | Concern | Choice | Notes |
 |---|---|---|
-| Framework | Next.js 16 (App Router) | SSG preferred; ISR for dynamic content |
+| Framework | Next.js 15 (App Router) | SSG preferred; ISR for dynamic content |
 | Language | TypeScript (strict mode) | No `any`, no `// @ts-ignore` |
 | Styling | Tailwind CSS v3 | Design tokens in `tailwind.config.ts` |
 | Component docs | Storybook 8 | All UI components must have a story |
@@ -83,11 +83,44 @@ It serves parents, young people, and prospective members across four sections
 
 ---
 
+## Architecture principles
+
+These principles underpin every decision in this codebase. They explain *why* the three-layer architecture, the token system, and the data-flow rules exist. Read them before asking "why can't I just…".
+
+### SOLID
+
+- **Single Responsibility.** Each module does one thing. Pages fetch data. Components render UI. Hooks encapsulate logic. `@73rd/tokens` owns brand data. Never mix these concerns.
+- **Open/Closed.** Extend behaviour via composition and interfaces, not by modifying existing code. A new section theme extends `SectionConfig` — it does not require a new `switch` inside every component.
+- **Liskov Substitution.** Implementations must be substitutable for their interfaces without changing behaviour. Any component that accepts a `SectionProvider` context must work correctly with any valid section/unit combination.
+- **Interface Segregation.** Define narrow, focused interfaces. Never build a catch-all props type that mixes unrelated concerns.
+- **Dependency Inversion.** Depend on abstractions. Components receive theme data through `useSectionTheme()` — they never import a concrete section config directly.
+
+### DRY
+
+Extract shared logic into utilities or hooks. Never duplicate business rules. Shared types live in `@73rd/tokens` — do not redeclare them locally.
+
+### YAGNI
+
+Do not add abstractions, configuration, or features speculatively. Build what the current task requires. Three similar lines of JSX is better than a premature abstraction.
+
+### Separation of Concerns
+
+| Layer | Responsibility |
+|---|---|
+| `apps/web/app/**/page.tsx` | Routing, data fetching, composing the page from `@73rd/ui` components |
+| `packages/ui/src/components/` | Rendering, layout, user interaction |
+| Custom hooks | Encapsulating logic, derived state, side effects |
+| `packages/tokens` | Brand data, section/unit configuration, type contracts |
+
+See the three-layer architecture section for the full breakdown of how these layers map to `primitives/`, `components/`, and `patterns/`.
+
+---
+
 ## Package scaffold order — read this before touching packages/ui or packages/tokens
 
-Neither `packages/ui` nor `packages/tokens` exists yet. Before any component
-or token work begins, they must be scaffolded in strict order. Do not skip
-steps or build out of sequence.
+If `packages/ui` or `packages/tokens` has not yet been scaffolded, they must
+be created in strict order before any component or token work begins. Do not
+skip steps or build out of sequence.
 
 ### Step 1 — Scaffold packages/tokens first
 
@@ -139,7 +172,8 @@ packages/ui/
     ├── index.ts          # re-exports all public components
     ├── primitives/
     ├── components/
-    └── patterns/
+    ├── patterns/
+    └── hooks/            # useSectionTheme and other shared hooks
 ```
 
 `package.json` must declare:
@@ -456,6 +490,32 @@ requirement) but all components use named exports.
 
 ---
 
+## Coding standards
+
+### TypeScript
+
+- Prefer `interface` for object shapes; use `type` for unions, intersections, and aliases.
+- All functions must have explicit return types — no implicit `any` returns.
+- Use `readonly` for data that must not be mutated (e.g. `readonly UnitConfig[]`).
+
+Strict mode, no `any`, and no `// @ts-ignore` are covered in the tech stack table and the prohibitions list below.
+
+### React
+
+- Functional components only. No class components.
+- Avoid prop drilling beyond two levels. Use `useSectionTheme()` for theme data; use co-located state or context for everything else.
+- Keep components small and focused. Extract logic into custom hooks rather than growing a component's body.
+- Never fetch data directly inside a component. In `packages/ui`, data comes in via props. In `apps/web`, data fetching belongs in async server components (`app/**/page.tsx`).
+
+### General
+
+- Prefer `const` over `let`. Never use `var`.
+- Use early returns to reduce nesting.
+- Name things clearly and descriptively. Avoid abbreviations.
+- Comments explain *why*, not *what*. Write code that is self-explanatory; reserve comments for non-obvious constraints, invariants, or workarounds for specific bugs.
+
+---
+
 ## Accessibility — non-negotiable
 
 This site serves young people and families. WCAG 2.1 AA compliance is
@@ -583,6 +643,12 @@ for (const vp of VIEWPORTS) {
 ---
 
 ## Testing requirements
+
+### Philosophy
+
+Follow TDD where practical: write a failing test, implement the minimum code to make it pass, then refactor. This applies to utility functions and hooks. For React components, write the Storybook story first (design the API before implementation), then write the test alongside the component — never as a follow-up.
+
+### CI gate
 
 Every PR must maintain or improve coverage. The CI gate is:
 - Unit/component tests: >80% coverage
@@ -807,6 +873,8 @@ Every PR description must include:
 - **Never verify a component at only one viewport.** Mobile, tablet (768px),
   and desktop (1280px) are all required. A layout that only works on desktop
   is not finished.
+- **Never use class components.** This project uses functional components exclusively.
+- **Never use `var`.** Use `const` (preferred) or `let`. `var` has no place in this codebase.
 
 ---
 
