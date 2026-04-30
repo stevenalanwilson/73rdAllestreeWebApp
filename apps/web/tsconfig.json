@@ -22,9 +22,10 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*":           ["./*"],
+      "@73rd/ui":      ["../../packages/ui/src/index.ts"],
+      "@73rd/ui/hooks":["../../packages/ui/src/hooks/index.ts"],
+      "@73rd/tokens":  ["../../packages/tokens/src/index.ts"]
     },
     "target": "ES2017"
   },

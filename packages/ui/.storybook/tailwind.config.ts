@@ -1,17 +1,11 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    '../../packages/ui/src/**/*.{ts,tsx}',
-    '../../packages/tokens/src/**/*.ts',
-  ],
+  content: ['../src/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // ── Tier 1: National Scout Association (locked) ──────────────────
         scout: {
           purple: '#4D2177',
           green:  '#84A40B',
@@ -19,13 +13,11 @@ const config: Config = {
           orange: '#ED7703',
           navy:   '#001323',
         },
-        // ── Tier 2: 73rd Allestree Group ─────────────────────────────────
         group: {
           red:         '#B31C27',
           'red-light': '#E8474F',
           'red-dark':  '#8A1018',
         },
-        // ── Tier 3: Sections and unit accents ────────────────────────────
         squirrels: {
           DEFAULT:     '#9B1C1C',
           light:       '#F9E5E5',

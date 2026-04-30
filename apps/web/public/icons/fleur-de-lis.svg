@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+  <!-- Fleur-de-lis placeholder — replace with the official Scout Association mark -->
+  <!-- Central petal -->
+  <path d="M24 4 C20 10 18 16 20 22 L24 20 L28 22 C30 16 28 10 24 4Z"/>
+  <!-- Left petal -->
+  <path d="M24 20 C18 18 12 18 8 22 C12 24 18 26 22 24 L24 20Z"/>
+  <!-- Right petal -->
+  <path d="M24 20 C30 18 36 18 40 22 C36 24 30 26 26 24 L24 20Z"/>
+  <!-- Stem and base -->
+  <path d="M20 24 L22 36 L24 38 L26 36 L28 24 C26 25 22 25 20 24Z"/>
+  <!-- Base crossbar -->
+  <path d="M18 36 Q24 34 30 36 Q24 40 18 36Z"/>
+</svg>

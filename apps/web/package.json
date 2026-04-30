@@ -9,6 +9,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@73rd/tokens": "workspace:*",
+    "@73rd/ui": "workspace:*",
     "next": "16.2.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
