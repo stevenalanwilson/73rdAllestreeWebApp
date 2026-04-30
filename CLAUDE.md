@@ -22,7 +22,7 @@ It serves parents, young people, and prospective members across four sections
 
 | Concern | Choice | Notes |
 |---|---|---|
-| Framework | Next.js 14 (App Router) | SSG preferred; ISR for dynamic content |
+| Framework | Next.js 16 (App Router) | SSG preferred; ISR for dynamic content |
 | Language | TypeScript (strict mode) | No `any`, no `// @ts-ignore` |
 | Styling | Tailwind CSS v3 | Design tokens in `tailwind.config.ts` |
 | Component docs | Storybook 8 | All UI components must have a story |
@@ -58,7 +58,7 @@ It serves parents, young people, and prospective members across four sections
 │       │       ├── page.tsx
 │       │       ├── pumas/
 │       │       └── jaguars/
-│       ├── components/             # App-specific components
+│       ├── components/             # App-specific wrappers only — UI belongs in packages/ui
 │       ├── lib/                    # Utilities, Sanity client
 │       └── public/
 │           └── icons/              # Unit SVG icons (see iconography section)
@@ -80,6 +80,170 @@ It serves parents, young people, and prospective members across four sections
 ├── pnpm-workspace.yaml
 └── CLAUDE.md                       # ← you are here
 ```
+
+---
+
+## Package scaffold order — read this before touching packages/ui or packages/tokens
+
+Neither `packages/ui` nor `packages/tokens` exists yet. Before any component
+or token work begins, they must be scaffolded in strict order. Do not skip
+steps or build out of sequence.
+
+### Step 1 — Scaffold packages/tokens first
+
+`packages/tokens` must exist and export its types and helpers before any
+component in `packages/ui` can import from it.
+
+Minimum required structure:
+
+```
+packages/tokens/
+├── package.json          # name: "@73rd/tokens"
+├── tsconfig.json
+└── src/
+    ├── index.ts          # re-exports everything
+    ├── sections.ts       # SectionConfig, UnitConfig, getSectionConfig, getUnitConfig
+    ├── colours.ts        # hex constants for all three brand tiers
+    └── typography.ts     # font family, scale, weight constants
+```
+
+`package.json` must declare:
+
+```json
+{
+  "name": "@73rd/tokens",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" }
+}
+```
+
+### Step 2 — Scaffold packages/ui with Storybook before any component
+
+`packages/ui` must not be created until Step 1 is complete. Storybook
+configuration must be in place before the first component file is written —
+stories are never retrofitted after the fact.
+
+Minimum required structure:
+
+```
+packages/ui/
+├── package.json          # name: "@73rd/ui"
+├── tsconfig.json
+├── .storybook/
+│   ├── main.ts
+│   └── preview.tsx       # wraps all stories in base CSS + font import
+└── src/
+    ├── index.ts          # re-exports all public components
+    ├── primitives/
+    ├── components/
+    └── patterns/
+```
+
+`package.json` must declare:
+
+```json
+{
+  "name": "@73rd/ui",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./hooks": "./src/hooks/index.ts"
+  },
+  "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" },
+  "dependencies": { "@73rd/tokens": "workspace:*" }
+}
+```
+
+Only after `pnpm storybook` runs without error should any component file be
+created inside `src/`.
+
+### Step 3 — Only then build page-level content in apps/web
+
+`apps/web` pages may import from `@73rd/ui` once Step 2 is complete.
+If a component is needed on a page and does not yet exist, create it in
+`packages/ui` first, then import it into the page.
+
+Uncomment the `packages/ui` content path in `apps/web/tailwind.config.ts`
+as soon as Step 2 is complete:
+
+```ts
+content: [
+  './app/**/*.{ts,tsx}',
+  './components/**/*.{ts,tsx}',
+  '../../packages/ui/src/**/*.{ts,tsx}',  // ← uncomment this
+],
+```
+
+---
+
+## Component and pattern library — mandatory workflow
+
+This is the primary architectural rule of the project. Read it before
+creating any file inside `apps/web/app/` or `apps/web/components/`.
+
+### The three-layer architecture
+
+All UI lives in `packages/ui`. The library has three layers. Each layer
+may only depend on layers below it — never on layers above it.
+
+| Layer | Directory | What goes here | Examples |
+|---|---|---|---|
+| Primitives | `src/primitives/` | Atomic, stateless, no business logic. No `useSectionTheme`. Accepts explicit colour props if colour is needed. | `Button`, `Badge`, `Tag`, `Avatar`, `Icon`, `Pill` |
+| Components | `src/components/` | Composed from primitives. May call `useSectionTheme()`. Contains real layout and content structure. | `HeroBanner`, `EventCard`, `SectionCard`, `UnitNav`, `LeaderBio` |
+| Patterns | `src/patterns/` | Full-width layout regions composed from components. Always sits inside a `SectionProvider`. Represents a reusable page section. | `SectionHeroBlock`, `EventsGridBlock`, `JoinCTABlock` |
+
+Never place a primitive directly inside `patterns/`. Always compose through
+the component layer.
+
+### What is genuinely app-specific (allowed in apps/web)
+
+| Category | Location in apps/web | Why it stays in apps/web |
+|---|---|---|
+| Route definitions | `app/**/page.tsx` | Next.js file-system routing |
+| Root layout | `app/layout.tsx` | App-level HTML shell, font loading, metadata |
+| Data-fetching shells | `app/**/page.tsx` | Sanity queries, async server components |
+| App-specific wrappers | `components/` | Thin shells that fetch data and pass props into a `@73rd/ui` component |
+| Middleware | `middleware.ts` | Next.js request handling |
+
+If a file in `apps/web/components/` contains JSX that renders UI beyond a
+simple prop-pass-through, that UI belongs in `packages/ui`.
+
+### The "would another Scout group want this?" rule
+
+Before writing any component, ask:
+
+> Would a future site for a different Scout group — with different section
+> colours but the same structure — want to reuse this component?
+
+- **Yes** → the component belongs in `packages/ui`
+- **No** (wired to a specific Sanity query, specific route, or 73rd group identity) → it may live in `apps/web/components/`
+
+When in doubt, put it in `packages/ui`. It is easier to move something into
+the app later than to extract it from the app.
+
+### Storybook is a mandatory gate, not documentation
+
+A component in `packages/ui` without a co-located `.stories.tsx` file is
+**incomplete** and must not be merged. The story is written in the same
+commit as the component — never deferred to a follow-up PR.
+
+File placement mirrors the component:
+
+```
+packages/ui/src/components/HeroBanner/
+├── HeroBanner.tsx
+├── HeroBanner.test.tsx
+└── HeroBanner.stories.tsx   ← required, same PR
+```
+
+Every story must include at least one variant per section to demonstrate
+theming across all four section contexts (Squirrels, Beavers, Cubs, Scouts).
 
 ---
 
@@ -380,9 +544,12 @@ describe('HeroBanner', () => {
 
 ## Storybook conventions
 
-Every component in `packages/ui` must have a story. Stories serve as the
-living pattern library — what leaders and future developers browse to understand
-what's available.
+Every component in `packages/ui` must have a co-located `.stories.tsx` file
+created in the same PR as the component — no exceptions. A component without
+a story is incomplete and must not be merged. The story is part of the
+definition of done, not documentation added after the fact. Stories serve as
+the living pattern library — what leaders and future developers browse to
+understand what's available.
 
 ```tsx
 // HeroBanner.stories.tsx
@@ -501,7 +668,9 @@ docs: update CLAUDE.md with Storybook conventions
 Every PR description must include:
 - [ ] Does this affect section theming? If yes, tested all 8 units
 - [ ] Has `pnpm a11y` been run locally and passes?
-- [ ] Are new components covered by tests and Storybook stories?
+- [ ] Are new UI components in `packages/ui`? (If not, is there a documented reason they are app-specific?)
+- [ ] Does every new component in `packages/ui` have a co-located `.stories.tsx` file in this PR?
+- [ ] Are new components covered by unit tests and at least one axe accessibility test?
 - [ ] Does this change require a Sanity schema migration?
 - [ ] Has the Docker build been verified locally (`docker build .`)?
 
@@ -527,6 +696,21 @@ Every PR description must include:
   accessibility test.
 - **Never override Scout brand colours** (Tier 1 tokens) for local styling.
   The national brand is non-negotiable.
+- **Never build a UI component directly in `apps/web`** without first checking
+  whether it belongs in `packages/ui`. Any JSX that renders visual UI and
+  could appear on more than one page must live in the shared library.
+- **Never ship a component in `packages/ui` without a co-located `.stories.tsx`
+  file** in the same PR. A component without a story fails the CI
+  accessibility gate and is considered unfinished.
+- **Never create a new package** without a `package.json` that declares `name`
+  as `@73rd/[package-name]`. Incorrectly named packages break pnpm workspace
+  resolution and the Turbo task graph.
+- **Never write a component that reads section or unit data from anything other
+  than `useSectionTheme()`** or a `@73rd/tokens` helper function. Inline
+  colour values and local type redeclarations are forbidden.
+- **Never scaffold `packages/ui` before `packages/tokens` is in place.**
+  The component library depends on the token package — building them out of
+  order creates import errors that are expensive to untangle.
 
 ---
 
@@ -549,6 +733,39 @@ Every PR description must include:
 /scouts/pumas               Pumas Troop
 /scouts/jaguars             Jaguars Troop
 ```
+
+---
+
+## Before you build — mandatory checklist
+
+Run through these steps before creating any new component or writing any JSX
+in a page file.
+
+**1. Does this already exist in packages/ui?**
+Check `src/primitives/`, `src/components/`, and `src/patterns/`. If Storybook
+is running (`pnpm storybook`), check the index. Do not create near-duplicates.
+
+**2. Which layer does it belong in?**
+
+| Situation | Layer |
+|---|---|
+| Single atomic element, no context, no internal state | Primitive |
+| Composed from primitives or reads `useSectionTheme()` | Component |
+| Full-width page region composed from multiple components | Pattern |
+
+**3. Is the package scaffold in place?**
+If `packages/ui` or `packages/tokens` does not exist, complete the
+"Package scaffold order" steps before creating any component file.
+
+**4. Has the Storybook story been planned?**
+Identify the story variants before writing the component:
+- Minimum one variant per section (Squirrels, Beavers, Cubs, Scouts)
+- Any props that need their own story (long copy, empty state, etc.)
+- Whether a `dark:` variant is needed
+
+**5. Do the types come from @73rd/tokens?**
+Any type describing a section, unit, colour, or brand concept must be
+imported from `@73rd/tokens`. Do not redeclare these types locally.
 
 ---
 
