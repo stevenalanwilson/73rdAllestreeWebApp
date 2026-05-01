@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { NavItem, Breadcrumb } from '@73rd/ui'
+import { HomeHero } from '@/components/HomeHero'
 
 // ── Shared layout helpers ──────────────────────────────────────────────────
 
@@ -161,7 +162,8 @@ export function ComponentsClient() {
               { label: 'Breadcrumb', href: '#breadcrumb' },
               { label: 'MobileMenu', href: '#mobile-menu' },
               { label: 'SectionProvider', href: '#section-provider' },
-              { label: 'SectionPage', href: '#section-page' },
+              { label: 'SectionPage',     href: '#section-page' },
+              { label: 'HomeHero',        href: '#home-hero' },
             ].map((link) => (
               <a
                 key={link.href}
@@ -338,6 +340,24 @@ const {
           </div>
           <PropsTable>
             <PropRow name="config" type="SectionConfig" description="Section data from getSectionConfig(slug). Provides name, ageRange, unitGroupName, and units array." />
+          </PropsTable>
+        </ComponentSection>
+
+        {/* ── HomeHero ── */}
+        <ComponentSection
+          id="home-hero"
+          title="HomeHero"
+          description="Full-bleed photo hero for the group homepage. Background image with a Scout Purple-to-Navy gradient overlay, Group Red accent stripe, heading, strapline, and CTA buttons."
+        >
+          <PackageBadge name="apps/web" />
+          <div className="mt-4 overflow-hidden rounded-xl border border-gray-200">
+            <HomeHero />
+            <div className="border-t border-gray-100 bg-gray-50 px-4 py-2">
+              <span className="font-mono text-xs text-gray-400">Live preview — image from public/images/group-photo.jpg</span>
+            </div>
+          </div>
+          <PropsTable>
+            <PropRow name="imageSrc" type="string?" description="Path to the background photo. Defaults to /images/group-photo.jpg." />
           </PropsTable>
         </ComponentSection>
 
