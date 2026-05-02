@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { NavItem, Breadcrumb } from '@73rd/ui'
+import { NavItem, NavDropdown, Breadcrumb, Footer, SectionProvider, UnitPage } from '@73rd/ui'
 import { HomeHero } from '@/components/HomeHero'
 
 // ── Shared layout helpers ──────────────────────────────────────────────────
@@ -157,13 +157,16 @@ export function ComponentsClient() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             {[
-              { label: 'SiteHeader', href: '#site-header' },
-              { label: 'NavItem',    href: '#nav-item' },
-              { label: 'Breadcrumb', href: '#breadcrumb' },
-              { label: 'MobileMenu', href: '#mobile-menu' },
-              { label: 'SectionProvider', href: '#section-provider' },
-              { label: 'SectionPage',     href: '#section-page' },
-              { label: 'HomeHero',        href: '#home-hero' },
+              { label: 'SiteHeader',       href: '#site-header' },
+              { label: 'NavItem',          href: '#nav-item' },
+              { label: 'NavDropdown',      href: '#nav-dropdown' },
+              { label: 'Breadcrumb',       href: '#breadcrumb' },
+              { label: 'MobileMenu',       href: '#mobile-menu' },
+              { label: 'SectionProvider',  href: '#section-provider' },
+              { label: 'SectionPage',      href: '#section-page' },
+              { label: 'UnitPage',         href: '#unit-page' },
+              { label: 'HomeHero',         href: '#home-hero' },
+              { label: 'Footer',           href: '#footer' },
             ].map((link) => (
               <a
                 key={link.href}
@@ -343,6 +346,96 @@ const {
           </PropsTable>
         </ComponentSection>
 
+        {/* ── NavDropdown ── */}
+        <ComponentSection
+          id="nav-dropdown"
+          title="NavDropdown"
+          description="A desktop nav item that reveals a dropdown panel of child links on hover or click. Used by SiteHeader when a NavItemConfig has a children array."
+        >
+          <PackageBadge name="@73rd/ui" />
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <PreviewBox label="Default — closed">
+              <ul role="list" className="flex gap-1">
+                <NavDropdown item={{
+                  label: 'Our Sections',
+                  href: '',
+                  children: [
+                    { label: 'Squirrels', href: '/squirrels' },
+                    { label: 'Beavers',   href: '/beavers' },
+                    { label: 'Cubs',      href: '/cubs' },
+                    { label: 'Scouts',    href: '/scouts' },
+                  ],
+                }} />
+              </ul>
+            </PreviewBox>
+            <PreviewBox label="current child — parent highlights">
+              <ul role="list" className="flex gap-1">
+                <NavDropdown item={{
+                  label: 'Our Sections',
+                  href: '',
+                  children: [
+                    { label: 'Squirrels', href: '/squirrels' },
+                    { label: 'Beavers',   href: '/beavers', current: true },
+                    { label: 'Cubs',      href: '/cubs' },
+                    { label: 'Scouts',    href: '/scouts' },
+                  ],
+                }} />
+              </ul>
+            </PreviewBox>
+          </div>
+          <PropsTable>
+            <PropRow name="item.label" type="string" description="The button label shown in the nav bar." />
+            <PropRow name="item.children" type="NavItemConfig[]" description="Sub-links rendered in the dropdown panel." />
+            <PropRow name="item.current" type="boolean?" description="Highlights the button. Auto-derived from any child with current={true}." />
+          </PropsTable>
+        </ComponentSection>
+
+        {/* ── UnitPage ── */}
+        <ComponentSection
+          id="unit-page"
+          title="UnitPage"
+          description="Shared unit detail layout: hero in unit accent colour, about section, what-we-do list, and a join CTA in section colour. Reads all data from useSectionTheme() — no props needed."
+        >
+          <PackageBadge name="@73rd/ui" />
+          <div className="mt-4 overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-100 bg-gray-50 px-4 py-2.5">
+              <span className="font-mono text-xs text-gray-400">Live examples — section and unit colour driven by SectionProvider</span>
+            </div>
+            <div className="space-y-1.5 p-6 text-sm text-gray-600">
+              <p>
+                <code className="rounded bg-gray-100 px-1 font-mono text-xs">UnitPage</code> takes no props. It reads{' '}
+                <code className="rounded bg-gray-100 px-1 font-mono text-xs">unitName</code>,{' '}
+                <code className="rounded bg-gray-100 px-1 font-mono text-xs">unitAccent</code>,{' '}
+                <code className="rounded bg-gray-100 px-1 font-mono text-xs">sectionColour</code>, and{' '}
+                <code className="rounded bg-gray-100 px-1 font-mono text-xs">sectionName</code> from the nearest{' '}
+                <code className="rounded bg-gray-100 px-1 font-mono text-xs">SectionProvider</code>.
+              </p>
+              <p className="mt-3">Visit a unit page to see it live:</p>
+              <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
+                {[
+                  ['/squirrels/red-squirrels', 'Red Squirrels'],
+                  ['/squirrels/grey-squirrels', 'Grey Squirrels'],
+                  ['/beavers/mohawks', 'Mohawks'],
+                  ['/beavers/cherokees', 'Cherokees'],
+                  ['/cubs/lions', 'Lions'],
+                  ['/cubs/tigers', 'Tigers'],
+                  ['/scouts/pumas', 'Pumas'],
+                  ['/scouts/jaguars', 'Jaguars'],
+                ].map(([href, label]) => (
+                  <li key={href}>
+                    <a href={href} className="font-semibold text-scout-purple hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <PropsTable>
+            <PropRow name="(none)" type="—" description="All data is read from useSectionTheme(). Wrap the page in SectionProvider with both section and unit props." />
+          </PropsTable>
+        </ComponentSection>
+
         {/* ── HomeHero ── */}
         <ComponentSection
           id="home-hero"
@@ -358,6 +451,26 @@ const {
           </div>
           <PropsTable>
             <PropRow name="imageSrc" type="string?" description="Path to the background photo. Defaults to /images/group-photo.jpg." />
+          </PropsTable>
+        </ComponentSection>
+
+        {/* ── Footer ── */}
+        <ComponentSection
+          id="footer"
+          title="Footer"
+          description="Site-wide footer in Scout Navy. Group identity, address, charity number, social links, and section quick-links. Rendered in every layout."
+        >
+          <PackageBadge name="@73rd/ui" />
+          <div className="mt-4 overflow-hidden rounded-xl border border-gray-200">
+            <Footer />
+            <div className="border-t border-gray-100 bg-gray-50 px-4 py-2">
+              <span className="font-mono text-xs text-gray-400">Live preview — social link hrefs are optional props</span>
+            </div>
+          </div>
+          <PropsTable>
+            <PropRow name="facebookHref" type="string?" description="Facebook profile URL. Defaults to '#'." />
+            <PropRow name="twitterHref"  type="string?" description="X (Twitter) profile URL. Defaults to '#'." />
+            <PropRow name="instagramHref" type="string?" description="Instagram profile URL. Defaults to '#'." />
           </PropsTable>
         </ComponentSection>
 

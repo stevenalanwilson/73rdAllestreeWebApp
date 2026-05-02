@@ -104,26 +104,52 @@ export const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose, navItems, tri
       {/* Nav links */}
       <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto px-4 py-3">
         <ul role="list" className="flex flex-col gap-0.5">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                aria-current={item.current ? 'page' : undefined}
-                onClick={onClose}
-                className={[
-                  'flex min-h-[48px] items-center rounded-lg px-4 text-base font-semibold transition-colors',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple',
-                  item.current
-                    ? 'bg-scout-purple/10 text-scout-purple'
-                    : 'text-scout-navy hover:bg-gray-100 dark:text-white dark:hover:bg-white/10',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
+          {navItems.map((item) =>
+            item.children?.length ? (
+              <li key={item.label}>
+                <p className="px-4 pt-4 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  {item.label}
+                </p>
+                <ul role="list" className="flex flex-col gap-0.5">
+                  {item.children.map((child) => (
+                    <li key={child.href}>
+                      <a
+                        href={child.href}
+                        aria-current={child.current ? 'page' : undefined}
+                        onClick={onClose}
+                        className={[
+                          'flex min-h-[44px] items-center rounded-lg pl-6 pr-4 text-base font-semibold transition-colors',
+                          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple',
+                          child.current
+                            ? 'bg-scout-purple/10 text-scout-purple'
+                            : 'text-scout-navy hover:bg-gray-100 dark:text-white dark:hover:bg-white/10',
+                        ].join(' ')}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  aria-current={item.current ? 'page' : undefined}
+                  onClick={onClose}
+                  className={[
+                    'flex min-h-[48px] items-center rounded-lg px-4 text-base font-semibold transition-colors',
+                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple',
+                    item.current
+                      ? 'bg-scout-purple/10 text-scout-purple'
+                      : 'text-scout-navy hover:bg-gray-100 dark:text-white dark:hover:bg-white/10',
+                  ].join(' ')}
+                >
+                  {item.label}
+                </a>
+              </li>
+            )
+          )}
         </ul>
       </nav>
     </div>

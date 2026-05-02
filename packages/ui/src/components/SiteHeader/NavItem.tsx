@@ -4,6 +4,7 @@ export interface NavItemConfig {
   label: string
   href: string
   current?: boolean
+  children?: NavItemConfig[]
 }
 
 interface NavItemProps {
