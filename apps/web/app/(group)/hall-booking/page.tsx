@@ -58,7 +58,7 @@ export default function HallBookingPage() {
       </section>
 
       {/* Photo gallery */}
-      <section aria-label="Hall photos" className="bg-white">
+      <section aria-label="Hall photos" className="bg-white pt-1">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-2 gap-1 lg:grid-cols-4">
             {/* Interior — spans 2 columns */}
