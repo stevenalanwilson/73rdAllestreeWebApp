@@ -18,13 +18,6 @@ const VEHICLES = [
     pricing: { evening: '£20', daily: '£55', weekend: '£85', weekly: '£250', extraMiles: '£1.00/mi' },
   },
   {
-    name: 'Margaret',
-    type: 'LDV Maxus minibus',
-    seats: 15,
-    notes: 'Tail-lift fitted — suitable for wheelchair users.',
-    pricing: { evening: '£15', daily: '£45', weekend: '£70', weekly: '£200', extraMiles: '£0.80/mi' },
-  },
-  {
     name: 'Gerald',
     type: 'Twin-axle trailer',
     seats: null,
@@ -109,8 +102,9 @@ export default function OurVehiclesPage() {
           </table>
         </div>
         <p className="mt-4 text-sm text-gray-500">
-          A Section 19 permit is required to drive our minibuses. Online booking and email
-          confirmation required for all hires.
+          A section 19 permit is required per minibus to hire. Drivers must be between 25–70 with
+          no accidents or endorsements in the past 5 years. Online booking and email confirmation
+          required for all hires.
         </p>
       </section>
 
