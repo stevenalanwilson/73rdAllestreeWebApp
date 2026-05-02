@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'Hall Hire — 73rd Allestree Scout Group',
@@ -30,46 +31,50 @@ export default function HallBookingPage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Hero */}
-      <section aria-label="Hall hire hero" className="bg-scout-purple py-20 text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-white/60">
-            73rd Allestree Scout Group
-          </p>
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Hire Our Hall</h1>
-          <p className="mt-4 max-w-xl text-lg text-white/80">
-            A spacious, clean and flexible daytime venue in Allestree with on-site parking —
-            perfect for classes, groups and community events.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href="/contact"
-              className="rounded-lg bg-group-red px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
-            >
-              Enquire now
-            </a>
-            <a
-              href="#pricing"
-              className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
-            >
-              See pricing
-            </a>
+      <section aria-label="Hall hire hero" className="relative flex min-h-[580px] items-end overflow-hidden">
+        <Image
+          src="/images/hall-booking/interior.jpg"
+          alt="Mitchell Hall — large open-plan space with polished floor and climbing wall"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-scout-navy via-scout-navy/60 to-scout-purple/40"
+        />
+        <div className="relative z-10 w-full">
+          <div className="mx-auto max-w-7xl px-4 pb-16 pt-32 sm:px-6 lg:px-8">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-white/60">
+              73rd Allestree Scout Group
+            </p>
+            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Hire Our Hall</h1>
+            <p className="mt-4 max-w-xl text-lg text-white/80">
+              A spacious, clean and flexible daytime venue in Allestree with on-site parking —
+              perfect for classes, groups and community events.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href="/contact"
+                className="rounded-lg bg-group-red px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
+              >
+                Enquire now
+              </a>
+              <a
+                href="#pricing"
+                className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
+              >
+                See pricing
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Photo gallery */}
+      {/* Photo strip */}
       <section aria-label="Hall photos" className="bg-white">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-2 gap-1 lg:grid-cols-4">
-            {/* Interior — spans 2 columns */}
-            <div className="col-span-2 row-span-2">
-              <img
-                src="/images/hall-booking/interior.jpg"
-                alt="The main hall — large open-plan space with polished floor and climbing wall"
-                className="h-full w-full object-cover"
-                style={{ minHeight: '320px' }}
-              />
-            </div>
             <div>
               <img
                 src="/images/hall-booking/seating-idea-1.jpg"
