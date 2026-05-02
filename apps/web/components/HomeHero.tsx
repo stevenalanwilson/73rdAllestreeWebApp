@@ -6,7 +6,7 @@ interface HomeHeroProps {
 
 export function HomeHero({ imageSrc = '/images/group-photo.jpg' }: HomeHeroProps) {
   return (
-    <section aria-label="Welcome" className="relative flex min-h-[580px] items-end overflow-hidden">
+    <section aria-label="Welcome" className="relative flex min-h-[620px] items-end overflow-hidden">
 
       {/* Background photo */}
       <Image
@@ -26,19 +26,24 @@ export function HomeHero({ imageSrc = '/images/group-photo.jpg' }: HomeHeroProps
       {/* Content */}
       <div className="relative z-10 w-full">
         <div className="mx-auto max-w-7xl px-4 pb-16 pt-32 sm:px-6 lg:px-8">
-          <div aria-hidden="true" className="mb-5 h-1 w-12 rounded-full bg-group-red" />
+          <span className="mb-4 inline-block rounded-full bg-group-red/30 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white">
+            #SkillsForLife
+          </span>
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
-            73rd Allestree<br />Scout Group
+            73rd Derby (Allestree)<br />Scout Group
           </h1>
-          <p className="mt-5 max-w-lg text-lg text-white/75">
-            Adventure, friendship, and skills for young people aged 4–14 in Allestree, Derby.
+          <p className="mt-3 text-sm text-white/60">
+            Woodlands Road, Allestree, Derby, DE22 2HE
+          </p>
+          <p className="mt-5 max-w-xl text-lg text-white/80">
+            Fun and challenging activities, unique experiences, everyday adventure — and the chance to help others. For young people aged 4–14 in Allestree, Derby.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="/contact"
+              href="/waiting-list"
               className="rounded-lg bg-group-red px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
             >
-              Join us
+              Join the waiting list
             </a>
             <a
               href="/about"

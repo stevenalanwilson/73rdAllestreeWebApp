@@ -56,6 +56,58 @@ export default function HomePage() {
         </ul>
       </section>
 
+      {/* Skills */}
+      <section
+        aria-labelledby="skills-heading"
+        className="bg-white py-20"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2
+            id="skills-heading"
+            className="mb-2 text-3xl font-extrabold tracking-tight text-scout-navy"
+          >
+            Skills for life
+          </h2>
+          <p className="mb-10 text-gray-500">
+            Scouting builds the skills young people need to thrive.
+          </p>
+          <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { skill: 'Teamwork',            description: 'Working together to solve problems and achieve shared goals.',        colour: 'bg-scout-purple' },
+              { skill: 'Leadership',          description: 'Building confidence to step up, make decisions, and inspire others.', colour: 'bg-beavers' },
+              { skill: 'Communication',       description: 'Expressing ideas clearly and listening to others.',                    colour: 'bg-scouts' },
+              { skill: 'Time Management',     description: 'Balancing activities, planning ahead, and meeting commitments.',       colour: 'bg-group-red' },
+              { skill: 'Planning',            description: 'Setting goals, thinking ahead, and seeing projects through.',          colour: 'bg-cubs' },
+              { skill: 'Cultural Awareness',  description: 'Celebrating diversity and developing a global outlook.',               colour: 'bg-squirrels' },
+            ].map(({ skill, description, colour }) => (
+              <li key={skill} className="flex gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-6">
+                <div
+                  className={`${colour} mt-0.5 h-8 w-8 flex-shrink-0 rounded-lg`}
+                  aria-hidden="true"
+                />
+                <div>
+                  <h3 className="font-bold text-scout-navy">{skill}</h3>
+                  <p className="mt-1 text-sm text-gray-500">{description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Mission stripe */}
+      <section aria-label="Our mission" className="bg-scout-navy py-16 text-white">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <blockquote className="text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+            &ldquo;We change lives by offering 4 to 14 year olds fun and challenging activities,
+            unique experiences, everyday adventure and the chance to help others.&rdquo;
+          </blockquote>
+          <p className="mt-6 text-sm text-white/50">
+            Registered Charity No. 520628 &middot; Part of The Scout Association
+          </p>
+        </div>
+      </section>
+
       {/* Join CTA */}
       <section aria-label="Join the group" className="bg-group-red py-20 text-white">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">

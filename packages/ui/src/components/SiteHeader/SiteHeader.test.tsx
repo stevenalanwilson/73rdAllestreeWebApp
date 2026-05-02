@@ -21,7 +21,7 @@ const beaversWrapper = ({ children }: { children: ReactNode }) => (
 describe('SiteHeader', () => {
   it('renders the group name', () => {
     render(<SiteHeader navItems={GROUP_NAV} />)
-    expect(screen.getByText('73rd Allestree')).toBeInTheDocument()
+    expect(screen.getByText('73rd Allestree Scouts')).toBeInTheDocument()
   })
 
   it('home link has correct href and aria-label', () => {

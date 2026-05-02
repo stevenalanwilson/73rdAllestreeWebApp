@@ -3,6 +3,7 @@
 import { type FC, useRef, useState } from 'react'
 import { useSectionTheme } from '../../hooks/useSectionTheme'
 import { NavItem, type NavItemConfig } from './NavItem'
+import { NavDropdown } from './NavDropdown'
 import { MobileMenu } from './MobileMenu'
 import { Breadcrumb, type BreadcrumbItem } from './Breadcrumb'
 
@@ -12,7 +13,7 @@ interface SiteHeaderProps {
 }
 
 export const SiteHeader: FC<SiteHeaderProps> = ({ navItems, breadcrumbs = [] }) => {
-  const { sectionColour } = useSectionTheme()
+  const { sectionColour, isGroupLevel } = useSectionTheme()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -46,9 +47,13 @@ export const SiteHeader: FC<SiteHeaderProps> = ({ navItems, breadcrumbs = [] }) 
           {/* Right: desktop nav + mobile hamburger */}
           <nav aria-label="Main navigation">
             <ul role="list" className="hidden items-center gap-0.5 md:flex">
-              {navItems.map((item) => (
-                <NavItem key={item.href} item={item} />
-              ))}
+              {navItems.map((item) =>
+                item.children?.length ? (
+                  <NavDropdown key={item.label} item={item} />
+                ) : (
+                  <NavItem key={item.href} item={item} />
+                )
+              )}
             </ul>
           </nav>
 
@@ -78,12 +83,14 @@ export const SiteHeader: FC<SiteHeaderProps> = ({ navItems, breadcrumbs = [] }) 
       {/* ── Band 3: Allestree Red — 5px identity stripe ── */}
       <div aria-hidden="true" className="h-[20px] bg-group-red" />
 
-      {/* ── Band 4: Purple (group) / section colour (section pages) — breadcrumb ── */}
-      <Breadcrumb
-        items={breadcrumbs}
-        backgroundColour={sectionColour}
-        data-testid="section-stripe"
-      />
+      {/* ── Band 4: section colour — breadcrumb (section pages only) ── */}
+      {!isGroupLevel && (
+        <Breadcrumb
+          items={breadcrumbs}
+          backgroundColour={sectionColour}
+          data-testid="section-stripe"
+        />
+      )}
 
       {/* Mobile overlay */}
       <MobileMenu
