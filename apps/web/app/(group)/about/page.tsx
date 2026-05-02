@@ -121,34 +121,44 @@ export default function AboutPage() {
         aria-labelledby="history-heading"
         className="border-t border-gray-200 bg-white"
       >
-        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-          <h2 id="history-heading" className="text-3xl font-extrabold tracking-tight text-scout-navy">
-            Our History
-          </h2>
-          <div aria-hidden="true" className="mt-3 mb-10 h-1 w-12 rounded-full bg-group-red" />
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-2">
 
-          <div className="space-y-10">
-            {HISTORY.map(({ text, photo }, index) => (
-              <div key={index}>
-                <p className="text-gray-700 leading-relaxed">{text}</p>
+            {/* Left — narrative */}
+            <div>
+              <h2 id="history-heading" className="text-2xl font-bold text-scout-navy">
+                Our History
+              </h2>
+              <div aria-hidden="true" className="mt-3 mb-8 h-1 w-12 rounded-full bg-group-red" />
 
-                {photo && (
-                  <figure className="mt-6">
-                    <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-100 shadow-sm">
-                      <img
-                        src={photo.src}
-                        alt={photo.alt}
-                        className="w-full object-cover grayscale"
-                        loading="lazy"
-                      />
-                    </div>
-                    <figcaption className="mt-2 text-center text-sm italic text-gray-500">
-                      {photo.caption}
-                    </figcaption>
-                  </figure>
-                )}
+              <div className="space-y-8">
+                {HISTORY.map(({ text, photo }, index) => (
+                  <div key={index}>
+                    <p className="text-gray-600 leading-relaxed">{text}</p>
+
+                    {photo && (
+                      <figure className="mt-5">
+                        <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-100 shadow-sm">
+                          <img
+                            src={photo.src}
+                            alt={photo.alt}
+                            className="w-full object-cover grayscale"
+                            loading="lazy"
+                          />
+                        </div>
+                        <figcaption className="mt-2 text-center text-sm italic text-gray-500">
+                          {photo.caption}
+                        </figcaption>
+                      </figure>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Right — reserved for future components */}
+            <div />
+
           </div>
         </div>
       </section>
