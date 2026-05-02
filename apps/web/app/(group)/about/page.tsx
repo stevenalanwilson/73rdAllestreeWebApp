@@ -71,8 +71,8 @@ export default function AboutPage() {
         aria-labelledby="about-content-heading"
         className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div>
+        <div className="grid gap-12 lg:grid-cols-3">
+          <div className="lg:col-span-2">
             <h2 id="about-content-heading" className="text-2xl font-bold text-scout-navy">
               Our Story
             </h2>
@@ -122,10 +122,10 @@ export default function AboutPage() {
         className="border-t border-gray-200 bg-white"
       >
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2">
+          <div className="grid gap-12 lg:grid-cols-3">
 
             {/* Left — narrative */}
-            <div>
+            <div className="lg:col-span-2">
               <h2 id="history-heading" className="text-2xl font-bold text-scout-navy">
                 Our History
               </h2>
