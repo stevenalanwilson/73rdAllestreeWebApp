@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { PhotoGallery } from '@73rd/ui'
+import type { PhotoItem } from '@73rd/ui'
 
 export const metadata: Metadata = { title: 'Out & About' }
 
@@ -19,6 +21,15 @@ const ACTIVITIES = [
       'Litter picks, charity fundraisers, and local volunteering. Making a difference in Allestree and beyond.',
   },
 ]
+
+const PHOTOS: PhotoItem[] = Array.from({ length: 30 }, (_, i) => {
+  const n = String(i + 1).padStart(2, '0')
+  return {
+    src: `/images/gallery/gallery-${n}.jpg`,
+    thumbSrc: `/images/gallery/thumbs/gallery-${n}-thumb.jpg`,
+    alt: `73rd Allestree Scouts out and about — photo ${i + 1}`,
+  }
+})
 
 export default function OutAndAboutPage() {
   return (
@@ -57,7 +68,7 @@ export default function OutAndAboutPage() {
         </ul>
       </section>
 
-      {/* Photo gallery placeholder */}
+      {/* Photo gallery */}
       <section
         aria-labelledby="gallery-heading"
         className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
@@ -65,20 +76,7 @@ export default function OutAndAboutPage() {
         <h2 id="gallery-heading" className="mb-6 text-2xl font-bold text-scout-navy">
           Gallery
         </h2>
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
-        >
-          {Array.from({ length: 8 }, (_, i) => (
-            <li
-              key={i}
-              className="aspect-square rounded-xl bg-gray-200 flex items-center justify-center text-xs text-gray-400"
-              aria-label="Photo coming soon"
-            >
-              Photo coming soon
-            </li>
-          ))}
-        </ul>
+        <PhotoGallery photos={PHOTOS} />
       </section>
     </div>
   )

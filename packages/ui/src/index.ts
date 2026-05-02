@@ -1,3 +1,6 @@
+export { PhotoGallery } from './components/PhotoGallery/PhotoGallery'
+export type { PhotoItem, PhotoGalleryProps } from './components/PhotoGallery/PhotoGallery'
+
 export { SectionProvider } from './context/SectionProvider'
 export { useSectionTheme } from './hooks/useSectionTheme'
 export type { SectionTheme } from './hooks/useSectionTheme'
