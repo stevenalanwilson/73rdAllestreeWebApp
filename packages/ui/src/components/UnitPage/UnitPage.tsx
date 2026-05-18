@@ -58,6 +58,12 @@ export const UnitPage = () => {
               Whether it&apos;s campfire cooking, navigation challenges, or community service,
               every week brings something new. Come along and see what Scouting is all about.
             </p>
+            {unitConfig?.meetingTime && (
+              <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3">
+                <span className="text-sm font-semibold text-scout-navy">When we meet:</span>
+                <span className="text-sm text-gray-600">{unitConfig.meetingTime}</span>
+              </div>
+            )}
           </div>
 
           {/* What we do */}
