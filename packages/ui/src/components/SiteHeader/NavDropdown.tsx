@@ -92,36 +92,38 @@ export const NavDropdown: FC<NavDropdownProps> = ({ item }) => {
       </button>
 
       {isOpen && (
-        <ul
-          ref={menuRef}
-          role="menu"
-          aria-label={`${item.label} submenu`}
-          onKeyDown={handleMenuKeyDown}
-          className="absolute left-0 top-full z-40 mt-1 min-w-[160px] overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-lg"
-        >
-          {item.children?.map((child) => (
-            <li key={child.href} role="none">
-              <a
-                href={child.href}
-                role="menuitem"
-                aria-current={child.current ? 'page' : undefined}
-                onFocus={open}
-                onBlur={(e) => {
-                  if (!menuRef.current?.contains(e.relatedTarget as Node)) close()
-                }}
-                className={[
-                  'block px-4 py-2 text-sm font-semibold transition-colors',
-                  'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-scout-purple',
-                  child.current
-                    ? 'bg-scout-purple/10 text-scout-purple'
-                    : 'text-scout-navy hover:bg-scout-purple/5 hover:text-scout-purple',
-                ].join(' ')}
-              >
-                {child.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="absolute left-0 top-full z-40 pt-1">
+          <ul
+            ref={menuRef}
+            role="menu"
+            aria-label={`${item.label} submenu`}
+            onKeyDown={handleMenuKeyDown}
+            className="min-w-[160px] overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-lg"
+          >
+            {item.children?.map((child) => (
+              <li key={child.href} role="none">
+                <a
+                  href={child.href}
+                  role="menuitem"
+                  aria-current={child.current ? 'page' : undefined}
+                  onFocus={open}
+                  onBlur={(e) => {
+                    if (!menuRef.current?.contains(e.relatedTarget as Node)) close()
+                  }}
+                  className={[
+                    'block px-4 py-2 text-sm font-semibold transition-colors',
+                    'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-scout-purple',
+                    child.current
+                      ? 'bg-scout-purple/10 text-scout-purple'
+                      : 'text-scout-navy hover:bg-scout-purple/5 hover:text-scout-purple',
+                  ].join(' ')}
+                >
+                  {child.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </li>
   )
