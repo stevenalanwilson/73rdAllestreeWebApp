@@ -25,9 +25,8 @@ export const SectionPage: FC<SectionPageProps> = ({ config }) => {
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             {config.name}
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-white/80">
-            Welcome to 73rd Allestree {config.name}. We meet weekly and love outdoor adventures,
-            skills, and making new friends.
+          <p className="mt-4 max-w-2xl text-lg text-white/80">
+            {config.description}
           </p>
         </div>
       </section>
@@ -59,13 +58,38 @@ export const SectionPage: FC<SectionPageProps> = ({ config }) => {
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">{unit.groupName}</p>
                 <p className="mt-3 text-sm text-gray-600">
-                  Meet the {unit.name} — our {unit.groupName.toLowerCase()} of
-                  adventurous young people.
+                  {unit.meetingTime}
                 </p>
               </a>
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* Uniform & more info */}
+      <section
+        aria-label="Uniform and further information"
+        className="bg-white py-10"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <dl className="flex flex-col gap-4 sm:flex-row sm:gap-12">
+            <div>
+              <dt className="text-sm font-semibold uppercase tracking-widest text-gray-400">Uniform</dt>
+              <dd className="mt-1 text-gray-700 capitalize">{config.uniform}</dd>
+            </div>
+            <div>
+              <dt className="text-sm font-semibold uppercase tracking-widest text-gray-400">More information</dt>
+              <dd className="mt-1">
+                <a
+                  href={config.moreInfoUrl}
+                  className="text-scout-purple underline hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
+                >
+                  Being a {config.name.slice(0, -1)} | Scouts
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </section>
 
       {/* Join CTA */}
