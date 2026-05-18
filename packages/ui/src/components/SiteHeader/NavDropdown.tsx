@@ -12,8 +12,16 @@ export const NavDropdown: FC<NavDropdownProps> = ({ item }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLUListElement>(null)
 
-  const open = useCallback(() => setIsOpen(true), [])
-  const close = useCallback(() => setIsOpen(false), [])
+  const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const open = useCallback(() => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current)
+    setIsOpen(true)
+  }, [])
+
+  const close = useCallback(() => {
+    closeTimeout.current = setTimeout(() => setIsOpen(false), 120)
+  }, [])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
