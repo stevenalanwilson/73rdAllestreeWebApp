@@ -1,8 +1,23 @@
 'use client'
 
 import { type FC } from 'react'
-import { useSectionTheme } from '@73rd/ui'
+import { SectionProvider, UnitSection, useSectionTheme } from '@73rd/ui'
 import type { SectionConfig } from '@73rd/tokens'
+
+const ACTIVITIES = [
+  {
+    title: 'Outdoor adventures',
+    detail: 'Hiking, camping, and exploring the great outdoors — whatever the weather.',
+  },
+  {
+    title: 'Skills & badges',
+    detail: 'From first aid to cooking, we earn badges that build real-world skills.',
+  },
+  {
+    title: 'Community & friendship',
+    detail: 'Making new friends, helping the community, and having fun together.',
+  },
+]
 
 interface SectionPageProps {
   config: SectionConfig
@@ -39,28 +54,34 @@ export const SectionPage: FC<SectionPageProps> = ({ config }) => {
         <h2 id="units-heading" className="mb-8 text-2xl font-bold text-scout-navy">
           Our {config.unitGroupName}s
         </h2>
-        <ul role="list" className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2">
           {config.units.map((unit) => (
-            <li key={unit.slug}>
-              <a
-                href={unit.route}
-                className="group block rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
-              >
-                <div
-                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-white"
-                  style={{ backgroundColor: unit.accentHex }}
-                  aria-hidden="true"
-                >
-                  <span className="text-xl font-bold">{unit.name[0]}</span>
-                </div>
-                <h3 className="text-lg font-bold text-scout-navy group-hover:text-scout-purple">
-                  {unit.name}
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">{unit.groupName}</p>
-                <p className="mt-3 text-sm text-gray-600">
-                  {unit.meetingTime}
-                </p>
-              </a>
+            <SectionProvider key={unit.slug} section={config.slug} unit={unit.slug}>
+              <UnitSection id={unit.slug} />
+            </SectionProvider>
+          ))}
+        </div>
+      </section>
+
+      {/* What we do */}
+      <section
+        aria-labelledby="what-we-do-heading"
+        className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
+      >
+        <h2 id="what-we-do-heading" className="mb-6 text-2xl font-bold text-scout-navy">
+          What we do
+        </h2>
+        <ul role="list" className="grid gap-4 sm:grid-cols-3">
+          {ACTIVITIES.map(({ title, detail }) => (
+            <li key={title} className="flex gap-3">
+              <div
+                className={`${sectionColour} mt-1 h-4 w-4 flex-shrink-0 rounded-full`}
+                aria-hidden="true"
+              />
+              <div>
+                <p className="font-semibold text-scout-navy">{title}</p>
+                <p className="mt-0.5 text-sm text-gray-500">{detail}</p>
+              </div>
             </li>
           ))}
         </ul>

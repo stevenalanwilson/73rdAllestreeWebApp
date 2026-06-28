@@ -1,8 +1,5 @@
-import type { Metadata } from 'next'
-import { UnitPage } from '@73rd/ui'
-
-export const metadata: Metadata = { title: 'Pumas' }
+import { permanentRedirect } from 'next/navigation'
 
 export default function PumasPage() {
-  return <UnitPage />
+  permanentRedirect('/scouts#pumas')
 }

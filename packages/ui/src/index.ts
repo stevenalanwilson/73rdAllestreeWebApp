@@ -8,6 +8,8 @@ export { SiteHeader, NavItem, NavDropdown, Breadcrumb } from './components/SiteH
 export type { NavItemConfig, BreadcrumbItem } from './components/SiteHeader'
 export { Footer } from './components/Footer'
 export { UnitPage } from './components/UnitPage'
+export { UnitSection } from './components/UnitSection'
+export type { UnitSectionProps } from './components/UnitSection'
 
 // Re-export tokens types for consumer convenience
 export type {
