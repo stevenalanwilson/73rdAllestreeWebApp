@@ -77,13 +77,26 @@ export default function AboutPage() {
               Our Story
             </h2>
             <p className="mt-4 text-gray-600">
-              The 73rd Allestree Scout Group serves young people aged 4 to 14 across four sections:
-              Squirrels, Beavers, Cubs, and Scouts. Each section gives young people the skills,
-              confidence, and friendships to thrive.
+              At the 73rd, we are proud to be a cornerstone of the Allestree community. We believe
+              that Scouting is about more than just earning badges—it&apos;s about creating a space
+              where young people from across our neighborhood can find their confidence, build
+              lasting friendships, and discover their own potential.
             </p>
             <p className="mt-4 text-gray-600">
-              We are part of the Scout Association — a worldwide movement committed to empowering
-              young people to create positive change.
+              Being based in the heart of Allestree, we take full advantage of our fantastic local
+              surroundings. Whether we&apos;re exploring the nearby parks, engaging in community
+              projects, or meeting at our home on Woodlands Road, we pride ourselves on delivering
+              a balanced, adventurous program that challenges our members to try new things and push
+              their boundaries in a safe, supportive environment. From our youngest Squirrels and
+              Beavers taking their first steps on an outdoor adventure, to our senior Scouts
+              developing the leadership skills that will carry them into adulthood, our goal is to
+              help every young person in Allestree achieve their very best.
+            </p>
+            <p className="mt-4 text-gray-600">
+              Guided by our dedicated volunteer leadership team, we focus on inclusivity, teamwork,
+              and the spirit of adventure. We aren&apos;t just a troop; we are a family. We invite
+              you to join us on the journey as we continue to grow, explore, and make a positive
+              impact in the Allestree area and beyond.
             </p>
           </div>
           <div>

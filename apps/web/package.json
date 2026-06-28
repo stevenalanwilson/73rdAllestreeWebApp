@@ -13,7 +13,8 @@
     "@73rd/ui": "workspace:*",
     "next": "16.2.6",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "resend": "6.16.0"
   },
   "devDependencies": {
     "@types/node": "^20.17.30",
