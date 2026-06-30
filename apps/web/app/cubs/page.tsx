@@ -355,13 +355,21 @@ export default function CubsPage() {
             Young people from age 8 can join. Get in touch and we&apos;ll find the right
             Pack for your child and invite you to a free taster evening.
           </p>
-          <a
-            href="/contact"
-            className="mt-8 inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            style={{ color: sectionColourHex }}
-          >
-            Get in touch
-          </a>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a
+              href="/contact"
+              className="inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              style={{ color: sectionColourHex }}
+            >
+              Get in touch
+            </a>
+            <a
+              href="/waiting-list"
+              className="inline-flex items-center rounded-lg border border-white/40 px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Join the waiting list
+            </a>
+          </div>
         </div>
       </section>
 
