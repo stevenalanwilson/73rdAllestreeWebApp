@@ -161,6 +161,12 @@ export default function ScoutsPage() {
             >
               Meet our Troops
             </a>
+            <a
+              href="/waiting-list"
+              className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Join the waiting list
+            </a>
           </div>
         </div>
       </section>

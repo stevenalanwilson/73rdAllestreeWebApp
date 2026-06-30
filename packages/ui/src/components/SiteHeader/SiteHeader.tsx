@@ -46,7 +46,7 @@ export const SiteHeader: FC<SiteHeaderProps> = ({ navItems, breadcrumbs = [] }) 
 
           {/* Right: desktop nav + mobile hamburger */}
           <nav aria-label="Main navigation">
-            <ul role="list" className="hidden items-center gap-0.5 md:flex">
+            <ul role="list" className="hidden items-center gap-0.5 xl:flex">
               {navItems.map((item) =>
                 item.children?.length ? (
                   <NavDropdown key={item.label} item={item} />
@@ -64,7 +64,7 @@ export const SiteHeader: FC<SiteHeaderProps> = ({ navItems, breadcrumbs = [] }) 
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             aria-label="Open navigation menu"
-            className="rounded p-2 text-scout-navy hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple dark:text-white dark:hover:bg-white/10 md:hidden"
+            className="rounded p-2 text-scout-navy hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple dark:text-white dark:hover:bg-white/10 xl:hidden"
           >
             <svg
               aria-hidden="true"
