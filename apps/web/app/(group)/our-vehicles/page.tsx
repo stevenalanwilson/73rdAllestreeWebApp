@@ -40,7 +40,7 @@ const VEHICLES: Vehicle[] = [
     licence: 'Standard car licence (category B)',
     bestFor: 'Day trips and away days where a permit holder isn\'t available',
     notes: 'Weighs 3,500 kg, so it can be driven on a standard car licence — no minibus permit needed.',
-    image: null,
+    image: '/images/vehicles/elaine.jpg',
     pricing: { evening: '£20', daily: '£55', weekend: '£85', weekly: '£250', extraMiles: '£1.00/mi', includedMiles: '100 miles' },
   },
   {
@@ -153,16 +153,17 @@ export default function OurVehiclesPage() {
             <li key={v.name}>
               <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
                 {v.image ? (
-                  <Image
-                    src={v.image}
-                    alt={`${v.name}, our ${v.type.toLowerCase()}`}
-                    width={800}
-                    height={600}
-                    sizes="(min-width: 640px) 50vw, 100vw"
-                    className="h-auto w-full"
-                  />
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+                    <Image
+                      src={v.image}
+                      alt={`${v.name}, our ${v.type.toLowerCase()}`}
+                      fill
+                      sizes="(min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
                 ) : (
-                  <div className="flex h-48 w-full items-center justify-center bg-gray-100 text-sm text-gray-400">
+                  <div className="flex aspect-[4/3] w-full items-center justify-center bg-gray-100 text-sm text-gray-400">
                     Photo coming soon
                   </div>
                 )}
