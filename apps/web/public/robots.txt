@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Disallow: /so-you-want-to-be-a-leader
