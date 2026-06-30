@@ -20,6 +20,36 @@ const ACTIVITIES = [
     description:
       'Litter picks, charity fundraisers, and local volunteering. Making a difference in Allestree and beyond.',
   },
+  {
+    title: 'Climbing & caving',
+    description:
+      'Indoor climbing walls and real cave systems — building confidence at height and underground in equal measure.',
+  },
+  {
+    title: 'Cycling',
+    description:
+      'Group rides along local trails and cycle paths, building road sense, fitness, and confidence on two wheels.',
+  },
+  {
+    title: 'Archery & axe throwing',
+    description:
+      'Target sports that teach focus, patience, and how to handle equipment safely and responsibly.',
+  },
+  {
+    title: 'Pioneering & knots',
+    description:
+      'Lashing poles together to build rafts, towers, and structures — real engineering with rope and wood.',
+  },
+  {
+    title: 'First aid & life skills',
+    description:
+      'CPR practice, casualty care, and the kind of practical skills that matter well beyond Scouting.',
+  },
+  {
+    title: 'Wildlife & nature',
+    description:
+      'Nature trails, farm visits, and up-close animal encounters that spark curiosity about the natural world.',
+  },
 ]
 
 const PHOTOS: PhotoItem[] = Array.from({ length: 30 }, (_, i) => {

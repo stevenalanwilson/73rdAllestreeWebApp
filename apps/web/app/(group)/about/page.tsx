@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'About Us — 73rd Allestree Scout Group',
@@ -66,53 +67,142 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our Story + Our Sections */}
+      {/* Photo strip */}
+      <section aria-label="Our sections in action" className="overflow-hidden">
+        <div className="flex h-56 sm:h-72 lg:h-80">
+          {[
+            {
+              src: '/images/squirrels/squirrels-targets.jpg',
+              alt: 'Two Squirrels playing ring toss at outdoor targets on a sunny day',
+            },
+            {
+              src: '/images/beavers/beavers-planetarium-optimized.jpg',
+              alt: 'Beavers watching a presentation at a planetarium',
+            },
+            {
+              src: '/images/cubs/axe-throwing-1.jpg',
+              alt: 'A Cub throwing an axe at a target during an outdoor session',
+            },
+            {
+              src: '/images/scouts/scouts-first-aid.jpg',
+              alt: 'A Scout practising first aid casualty care on a teammate',
+            },
+            {
+              src: '/images/scouts/scouts-bin-bag-game.jpg',
+              alt: 'Scouts taking part in an outdoor team challenge with bin bags',
+            },
+          ].map((photo) => (
+            <div key={photo.src} className="relative flex-1 overflow-hidden" aria-hidden="true">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="20vw"
+                className="object-cover"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Our Story */}
       <section
         aria-labelledby="about-content-heading"
         className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="grid gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <h2 id="about-content-heading" className="text-2xl font-bold text-scout-navy">
-              Our Story
-            </h2>
-            <p className="mt-4 text-gray-600">
-              At the 73rd, we are proud to be a cornerstone of the Allestree community. We believe
-              that Scouting is about more than just earning badges—it&apos;s about creating a space
-              where young people from across our neighborhood can find their confidence, build
-              lasting friendships, and discover their own potential.
-            </p>
-            <p className="mt-4 text-gray-600">
-              Being based in the heart of Allestree, we take full advantage of our fantastic local
-              surroundings. Whether we&apos;re exploring the nearby parks, engaging in community
-              projects, or meeting at our home on Woodlands Road, we pride ourselves on delivering
-              a balanced, adventurous program that challenges our members to try new things and push
-              their boundaries in a safe, supportive environment. From our youngest Squirrels and
-              Beavers taking their first steps on an outdoor adventure, to our senior Scouts
-              developing the leadership skills that will carry them into adulthood, our goal is to
-              help every young person in Allestree achieve their very best.
-            </p>
-            <p className="mt-4 text-gray-600">
-              Guided by our dedicated volunteer leadership team, we focus on inclusivity, teamwork,
-              and the spirit of adventure. We aren&apos;t just a troop; we are a family. We invite
-              you to join us on the journey as we continue to grow, explore, and make a positive
-              impact in the Allestree area and beyond.
-            </p>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-scout-navy">Our Sections</h2>
-            <ul role="list" className="mt-4 space-y-3">
-              {[
-                { name: 'Squirrels', ages: 'Ages 4–6',     href: '/squirrels', colour: 'bg-squirrels' },
-                { name: 'Beavers',   ages: 'Ages 6–8',     href: '/beavers',   colour: 'bg-beavers' },
-                { name: 'Cubs',      ages: 'Ages 8–10.5',  href: '/cubs',      colour: 'bg-cubs' },
-                { name: 'Scouts',    ages: 'Ages 10.5–14', href: '/scouts',    colour: 'bg-scouts' },
-              ].map((section) => (
-                <li key={section.href}>
-                  <a
-                    href={section.href}
-                    className="group flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
-                  >
+        <div className="max-w-4xl">
+          <h2 id="about-content-heading" className="text-2xl font-bold text-scout-navy">
+            Our Story
+          </h2>
+          <p className="mt-4 text-gray-600">
+            At the 73rd, we are proud to be a cornerstone of the Allestree community. We believe
+            that Scouting is about more than just earning badges—it&apos;s about creating a space
+            where young people from across our neighborhood can find their confidence, build
+            lasting friendships, and discover their own potential.
+          </p>
+          <p className="mt-4 text-gray-600">
+            Being based in the heart of Allestree, we take full advantage of our fantastic local
+            surroundings. Whether we&apos;re exploring the nearby parks, engaging in community
+            projects, or meeting at our home on Woodlands Road, we pride ourselves on delivering
+            a balanced, adventurous program that challenges our members to try new things and push
+            their boundaries in a safe, supportive environment. From our youngest Squirrels and
+            Beavers taking their first steps on an outdoor adventure, to our senior Scouts
+            developing the leadership skills that will carry them into adulthood, our goal is to
+            help every young person in Allestree achieve their very best.
+          </p>
+          <p className="mt-4 text-gray-600">
+            Guided by our dedicated volunteer leadership team, we focus on inclusivity, teamwork,
+            and the spirit of adventure. We aren&apos;t just a troop; we are a family. We invite
+            you to join us on the journey as we continue to grow, explore, and make a positive
+            impact in the Allestree area and beyond.
+          </p>
+        </div>
+      </section>
+
+      {/* Our Sections */}
+      <section
+        aria-labelledby="sections-heading"
+        className="border-t border-gray-200 bg-white py-16"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 id="sections-heading" className="text-2xl font-bold text-scout-navy">
+            Our Sections
+          </h2>
+          <p className="mt-2 max-w-2xl text-gray-600">
+            Four sections, four age groups, one shared spirit of adventure — every young person
+            in Allestree has a place to belong.
+          </p>
+          <ul role="list" className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                name: 'Squirrels',
+                ages: 'Ages 4–6',
+                href: '/squirrels',
+                colour: 'bg-squirrels',
+                image: '/images/squirrels/squirrels-climbing.jpg',
+                alt: 'A Squirrel climbing a climbing wall with a leader belaying below',
+              },
+              {
+                name: 'Beavers',
+                ages: 'Ages 6–8',
+                href: '/beavers',
+                colour: 'bg-beavers',
+                image: '/images/beavers/beavers-lego-optimized.jpg',
+                alt: 'Beavers sorting through a giant pile of Lego bricks together',
+              },
+              {
+                name: 'Cubs',
+                ages: 'Ages 8–10.5',
+                href: '/cubs',
+                colour: 'bg-cubs',
+                image: '/images/cubs/pioneering-2.jpg',
+                alt: 'Cubs and leaders building a large pioneering structure together',
+              },
+              {
+                name: 'Scouts',
+                ages: 'Ages 10.5–14',
+                href: '/scouts',
+                colour: 'bg-scouts',
+                image: '/images/scouts/scouts-caving.jpg',
+                alt: 'Scouts exploring a narrow cave passage with helmet torches',
+              },
+            ].map((section) => (
+              <li key={section.href}>
+                <a
+                  href={section.href}
+                  className="group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
+                >
+                  <div className="relative h-40 w-full overflow-hidden">
+                    <Image
+                      src={section.image}
+                      alt={section.alt}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3 p-4">
                     <span
                       className={`${section.colour} h-3 w-3 flex-shrink-0 rounded-full`}
                       aria-hidden="true"
@@ -121,11 +211,11 @@ export default function AboutPage() {
                       {section.name}
                     </span>
                     <span className="ml-auto text-sm text-gray-500">{section.ages}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

@@ -118,6 +118,62 @@ export default function ContactPage() {
   const fieldClass = (field: keyof FormValues) =>
     `${inputClass} ${fieldError(field) ? errorClass : validClass}`
 
+  const sidebar = (
+    <div className="space-y-6 lg:sticky lg:top-8">
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="text-lg font-bold text-scout-navy">Joining the waiting list?</h3>
+        <p className="mt-2 text-sm text-gray-500">
+          Skip the form — apply directly to our waiting list in a couple of minutes.
+        </p>
+        <a
+          href="/waiting-list"
+          className="mt-4 inline-flex items-center text-sm font-semibold text-scout-purple hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
+        >
+          Join the waiting list →
+        </a>
+      </div>
+
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="text-lg font-bold text-scout-navy">Hiring a vehicle?</h3>
+        <p className="mt-2 text-sm text-gray-500">
+          See our fleet and hire rates, then get in touch to check availability.
+        </p>
+        <a
+          href="/our-vehicles"
+          className="mt-4 inline-flex items-center text-sm font-semibold text-scout-purple hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
+        >
+          View our vehicles →
+        </a>
+      </div>
+
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="text-lg font-bold text-scout-navy">Booking our hall?</h3>
+        <p className="mt-2 text-sm text-gray-500">
+          Check availability and pricing for hiring our hall for your event.
+        </p>
+        <a
+          href="/hall-booking"
+          className="mt-4 inline-flex items-center text-sm font-semibold text-scout-purple hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
+        >
+          Hall booking info →
+        </a>
+      </div>
+
+      <div className="rounded-2xl bg-scout-purple p-6 text-white">
+        <h3 className="text-lg font-bold">Prefer to email?</h3>
+        <p className="mt-2 text-sm text-white/80">
+          Woodlands Road, Allestree, Derby
+        </p>
+        <a
+          href="mailto:GSL@73DerbyScouts.org.uk"
+          className="mt-4 inline-block text-sm font-semibold text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          GSL@73DerbyScouts.org.uk
+        </a>
+      </div>
+    </div>
+  )
+
   if (submitted) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -138,11 +194,13 @@ export default function ContactPage() {
     <div className="min-h-screen bg-gray-50">
       {hero}
 
-      {/* Form */}
+      {/* Form + sidebar */}
       <section
         aria-labelledby="contact-form-heading"
-        className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8"
+        className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
       >
+        <div className="grid gap-12 lg:grid-cols-3">
+        <div className="lg:col-span-2">
         <h2 id="contact-form-heading" className="mb-8 text-2xl font-bold text-scout-navy">
           Send us a message
         </h2>
@@ -288,6 +346,10 @@ export default function ContactPage() {
             {isPending ? 'Sending…' : 'Send message'}
           </button>
         </form>
+        </div>
+
+        <div>{sidebar}</div>
+        </div>
       </section>
     </div>
   )

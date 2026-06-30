@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { SECTIONS } from '@73rd/tokens'
 import { HomeHero } from '@/components/HomeHero'
 
@@ -6,6 +7,25 @@ export const metadata: Metadata = {
   title: '73rd Allestree Scout Group',
   description:
     'Scouting for young people aged 4–14 in Allestree, Derby. Squirrels, Beavers, Cubs and Scouts.',
+}
+
+const SECTION_PHOTOS: Record<string, { src: string; alt: string }> = {
+  squirrels: {
+    src: '/images/squirrels/squirrels-climbing.jpg',
+    alt: 'A Squirrel climbing a climbing wall with a leader belaying below',
+  },
+  beavers: {
+    src: '/images/beavers/beavers-lego-optimized.jpg',
+    alt: 'Beavers sorting through a giant pile of Lego bricks together',
+  },
+  cubs: {
+    src: '/images/cubs/pioneering-2.jpg',
+    alt: 'Cubs and leaders building a large pioneering structure together',
+  },
+  scouts: {
+    src: '/images/scouts/scouts-caving.jpg',
+    alt: 'Scouts exploring a narrow cave passage with helmet torches',
+  },
 }
 
 export default function HomePage() {
@@ -29,13 +49,28 @@ export default function HomePage() {
           Find the right section for your child&apos;s age group.
         </p>
         <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SECTIONS.map((section) => (
+          {SECTIONS.map((section) => {
+            const photo = SECTION_PHOTOS[section.slug]
+            return (
             <li key={section.slug}>
               <a
                 href={`/${section.slug}`}
                 className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-scout-purple"
               >
-                <div className={`${section.colour} h-2`} aria-hidden="true" />
+                {photo ? (
+                  <div className="relative h-36 w-full overflow-hidden">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className={`${section.colour} absolute inset-x-0 bottom-0 h-1.5`} aria-hidden="true" />
+                  </div>
+                ) : (
+                  <div className={`${section.colour} h-2`} aria-hidden="true" />
+                )}
                 <div className="flex flex-1 flex-col p-6">
                   <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
                     {section.ageRange}
@@ -52,7 +87,8 @@ export default function HomePage() {
                 </div>
               </a>
             </li>
-          ))}
+            )
+          })}
         </ul>
       </section>
 

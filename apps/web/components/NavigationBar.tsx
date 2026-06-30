@@ -20,7 +20,6 @@ const BASE_NAV_ITEMS: NavItemConfig[] = [
   { label: 'Out & About',  href: '/out-and-about' },
   { label: 'Hall Booking', href: '/hall-booking' },
   { label: 'Our Vehicles', href: '/our-vehicles' },
-  { label: 'News',         href: '/news' },
   { label: 'Contact',      href: '/contact' },
 ]
 
