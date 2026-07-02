@@ -160,6 +160,7 @@ export default function OurVehiclesPage() {
                       fill
                       sizes="(min-width: 640px) 50vw, 100vw"
                       className="object-cover"
+                      priority
                     />
                   </div>
                 ) : (
