@@ -127,10 +127,10 @@ export default function OurVehiclesPage() {
               View the fleet
             </a>
             <a
-              href="/contact"
+              href="#hire-rates"
               className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
-              Enquire about hiring
+              See hire rates
             </a>
           </div>
         </div>
@@ -224,7 +224,70 @@ export default function OurVehiclesPage() {
         </div>
       </section>
 
-      {/* Hire rates — hidden until pricing is confirmed */}
+      {/* Hire rates */}
+      <section
+        id="hire-rates"
+        aria-labelledby="pricing-heading"
+        className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
+      >
+        <h2 id="pricing-heading" className="mb-2 text-3xl font-extrabold text-scout-navy">
+          Hire rates
+        </h2>
+        <p className="mb-10 text-gray-500">
+          All rates include a mileage allowance shown below — extra miles are charged at the
+          rate listed.
+        </p>
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          {VEHICLES.map((v) => (
+            <div key={v.name} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <div className="flex items-baseline justify-between">
+                <h3 className="text-lg font-bold text-scout-navy">{v.name}</h3>
+                <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">{v.type}</span>
+              </div>
+
+              <dl className="mt-4 grid grid-cols-2 gap-y-3 text-sm sm:grid-cols-4">
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Evening</dt>
+                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.evening ?? '—'}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Daily</dt>
+                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.daily ?? '—'}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Weekend</dt>
+                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.weekend ?? '—'}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Weekly</dt>
+                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.weekly ?? '—'}</dd>
+                </div>
+              </dl>
+
+              {(v.pricing.includedMiles || v.pricing.extraMiles) && (
+                <p className="mt-4 border-t border-gray-100 pt-4 text-xs text-gray-500">
+                  {v.pricing.includedMiles && (
+                    <>
+                      <span className="font-semibold text-gray-600">{v.pricing.includedMiles}</span> included
+                      {v.pricing.extraMiles && <> · </>}
+                    </>
+                  )}
+                  {v.pricing.extraMiles && (
+                    <>
+                      <span className="font-semibold text-gray-600">{v.pricing.extraMiles}</span> after that
+                    </>
+                  )}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-6 text-sm text-gray-500">
+          Evening hire covers 6–10pm. All hires require online booking and email confirmation.
+        </p>
+      </section>
 
       {/* Booking process */}
       <section aria-labelledby="booking-heading" className="bg-white py-16">
