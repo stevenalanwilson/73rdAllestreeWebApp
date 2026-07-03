@@ -2,6 +2,7 @@
 
 import { Resend } from 'resend'
 import { contactConfig } from '@/lib/contact-config'
+import { logger } from '@/lib/logger'
 
 export interface ContactFormData {
   firstName: string
@@ -79,6 +80,7 @@ export async function submitContactForm(data: ContactFormData): Promise<SubmitRe
   })
 
   if (error) {
+    logger.error('Contact form email failed to send', { name: error.name, message: error.message })
     return { ok: false, error: 'Failed to send your message. Please try again.' }
   }
 
