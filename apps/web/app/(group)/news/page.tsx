@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { requirePageFlag } from '@/lib/flags'
 
 export const metadata: Metadata = { title: 'News & Updates' }
 
@@ -24,6 +25,8 @@ const PLACEHOLDER_NEWS = [
 ]
 
 export default function NewsPage() {
+  requirePageFlag('news')
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}

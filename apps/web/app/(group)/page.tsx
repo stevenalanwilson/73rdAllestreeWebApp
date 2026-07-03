@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { SECTIONS } from '@73rd/tokens'
 import { HomeHero } from '@/components/HomeHero'
+import { FLAGS } from '@/lib/flags'
 
 export const metadata: Metadata = {
   title: '73rd Allestree Scout Group',
@@ -49,7 +50,7 @@ export default function HomePage() {
           Find the right section for your child&apos;s age group.
         </p>
         <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SECTIONS.map((section) => {
+          {SECTIONS.filter((section) => FLAGS.sections[section.slug]).map((section) => {
             const photo = SECTION_PHOTOS[section.slug]
             return (
             <li key={section.slug}>
