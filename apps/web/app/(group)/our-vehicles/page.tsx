@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { isFeatureEnabled } from '@/lib/flags'
 
 export const metadata: Metadata = { title: 'Our Vehicles' }
 
@@ -104,6 +105,8 @@ const BOOKING_STEPS = [
 ]
 
 export default function OurVehiclesPage() {
+  const showHireRates = isFeatureEnabled('vehicleHireRates')
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -126,12 +129,14 @@ export default function OurVehiclesPage() {
             >
               View the fleet
             </a>
-            <a
-              href="#hire-rates"
-              className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              See hire rates
-            </a>
+            {showHireRates && (
+              <a
+                href="#hire-rates"
+                className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                See hire rates
+              </a>
+            )}
           </div>
         </div>
       </section>
@@ -225,6 +230,7 @@ export default function OurVehiclesPage() {
       </section>
 
       {/* Hire rates */}
+      {showHireRates && (
       <section
         id="hire-rates"
         aria-labelledby="pricing-heading"
@@ -288,6 +294,7 @@ export default function OurVehiclesPage() {
           Evening hire covers 6–10pm. All hires require online booking and email confirmation.
         </p>
       </section>
+      )}
 
       {/* Booking process */}
       <section aria-labelledby="booking-heading" className="bg-white py-16">

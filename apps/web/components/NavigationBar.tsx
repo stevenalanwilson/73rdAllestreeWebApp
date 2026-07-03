@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation'
 import { SiteHeader, useSectionTheme } from '@73rd/ui'
 import type { NavItemConfig, BreadcrumbItem } from '@73rd/ui'
+import { SECTIONS } from '@73rd/tokens'
+import { FLAGS } from '@/lib/flags'
 
 const BASE_NAV_ITEMS: NavItemConfig[] = [
   { label: 'Home',         href: '/' },
@@ -10,17 +12,15 @@ const BASE_NAV_ITEMS: NavItemConfig[] = [
   {
     label: 'Our Sections',
     href: '',
-    children: [
-      { label: 'Squirrels', href: '/squirrels' },
-      { label: 'Beavers',   href: '/beavers' },
-      { label: 'Cubs',      href: '/cubs' },
-      { label: 'Scouts',    href: '/scouts' },
-    ],
+    children: SECTIONS.filter((section) => FLAGS.sections[section.slug]).map((section) => ({
+      label: section.name,
+      href: `/${section.slug}`,
+    })),
   },
   { label: 'Out & About',  href: '/out-and-about' },
   { label: 'Hall Booking', href: '/hall-booking' },
   { label: 'Our Vehicles', href: '/our-vehicles' },
-  { label: 'News',         href: '/news' },
+  ...(FLAGS.pages.news ? [{ label: 'News', href: '/news' }] : []),
   { label: 'Contact',      href: '/contact' },
 ]
 

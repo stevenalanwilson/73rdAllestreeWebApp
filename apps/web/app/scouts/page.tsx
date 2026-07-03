@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { getSectionConfig } from '@73rd/tokens'
 import { SectionProvider, UnitSection, useSectionTheme } from '@73rd/ui'
+import { requireSectionFlag } from '@/lib/flags'
 
 const config = getSectionConfig('scouts')
 
@@ -127,6 +128,7 @@ const JOINING_STEPS = [
 ]
 
 export default function ScoutsPage() {
+  requireSectionFlag('scouts')
   const { sectionColour, sectionColourHex } = useSectionTheme()
 
   return (

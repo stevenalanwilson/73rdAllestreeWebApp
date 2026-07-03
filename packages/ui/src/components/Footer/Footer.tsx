@@ -1,12 +1,18 @@
 import { type FC } from 'react'
 
+interface FooterLink {
+  label: string
+  href: string
+}
+
 interface FooterProps {
   facebookHref?: string
   twitterHref?: string
   instagramHref?: string
+  links?: FooterLink[]
 }
 
-const QUICK_LINKS = [
+const DEFAULT_QUICK_LINKS: FooterLink[] = [
   { label: 'Squirrels', href: '/squirrels' },
   { label: 'Beavers',   href: '/beavers' },
   { label: 'Cubs',      href: '/cubs' },
@@ -20,6 +26,7 @@ export const Footer: FC<FooterProps> = ({
   facebookHref = '#',
   twitterHref = '#',
   instagramHref = '#',
+  links = DEFAULT_QUICK_LINKS,
 }) => {
   const year = new Date().getFullYear()
 
@@ -47,7 +54,7 @@ export const Footer: FC<FooterProps> = ({
               Sections
             </p>
             <ul role="list" className="mt-4 space-y-2">
-              {QUICK_LINKS.map((link) => (
+              {links.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
