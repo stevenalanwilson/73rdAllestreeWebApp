@@ -170,7 +170,7 @@ const SCOUTS_UNITS: UnitConfig[] = [
     tintDark:    'dark:bg-scouts-dark',
     iconPath:    '/icons/jaguar-spots.svg',
     route:       '/scouts/jaguars',
-    meetingTime: 'Thursdays during term time, 19:30–21:00',
+    meetingTime: 'Fridays during term time, 19:30–21:00',
   },
 ]
 
