@@ -9,12 +9,12 @@ import type { SectionSlug } from '@73rd/tokens'
 export const FLAGS = {
   /** Whole pages that can be hidden entirely (404s when off). */
   pages: {
-    news: true,
+    news: false,
   },
 
   /** Individual features within a page that can be hidden. */
   features: {
-    vehicleHireRates: true,
+    vehicleHireRates: false,
   },
 
   /** Whole Scout sections (and their unit pages) that can be hidden. */
