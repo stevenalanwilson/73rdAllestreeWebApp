@@ -9,11 +9,15 @@ import type { SectionSlug } from '@73rd/tokens'
 export const FLAGS = {
   /** Whole pages that can be hidden entirely (404s when off). */
   pages: {
+    // Intentionally false on main — News content isn't ready for a public
+    // audience yet. Left true here so it can still be reviewed on staging.
     news: true,
   },
 
   /** Individual features within a page that can be hidden. */
   features: {
+    // Intentionally false on main — hire pricing isn't confirmed for
+    // public display yet. Left true here so it can still be reviewed on staging.
     vehicleHireRates: true,
   },
 
