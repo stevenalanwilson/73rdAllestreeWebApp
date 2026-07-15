@@ -45,7 +45,7 @@ const HISTORY: Array<{
     },
   },
   {
-    text: '1982 — The new building is complete and opened by HRH Princess Margaret. The 73rd Allestree Scout Group has been meeting here ever since.',
+    text: '1982 — The new building is complete and opened by HRH Princess Anne. The 73rd Allestree Scout Group has been meeting here ever since.',
   },
 ]
 
