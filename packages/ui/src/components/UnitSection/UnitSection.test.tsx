@@ -35,9 +35,9 @@ describe('UnitSection', () => {
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('Pumas')
   })
 
-  it('renders the group name (1st Drey)', () => {
+  it('renders the group name (Drey)', () => {
     render(<UnitSection id="red-squirrels" />, { wrapper: wrap('squirrels', 'red-squirrels') })
-    expect(screen.getByText('1st Drey')).toBeInTheDocument()
+    expect(screen.getByText('Drey')).toBeInTheDocument()
   })
 
   it('renders the meeting time', () => {
