@@ -4,6 +4,14 @@ import { isFeatureEnabled } from '@/lib/flags'
 
 export const metadata: Metadata = { title: 'Our Vehicles' }
 
+interface Rate {
+  cost: string
+  includedMiles?: string
+  extraMiles?: string
+}
+
+type HirePeriod = 'evening' | 'day' | 'weekend' | 'week'
+
 interface Vehicle {
   name: string
   type: string
@@ -13,26 +21,32 @@ interface Vehicle {
   bestFor: string
   notes: string
   image: string | null
-  pricing: {
-    evening: string | null
-    daily: string | null
-    weekend: string | null
-    weekly: string | null
-    extraMiles: string | null
-    includedMiles: string | null
-  }
+  /** External hire rates. `null` means not available for that hire length. */
+  pricing: Record<HirePeriod, Rate | null>
 }
+
+const HIRE_PERIODS: { key: HirePeriod; label: string; duration: string }[] = [
+  { key: 'evening', label: 'Evening', duration: '3 hrs' },
+  { key: 'day', label: 'Day', duration: '26 hrs' },
+  { key: 'weekend', label: 'Weekend', duration: '50 hrs' },
+  { key: 'week', label: 'Week', duration: '175 hrs' },
+]
 
 const VEHICLES: Vehicle[] = [
   {
-    name: 'Brenda',
-    type: 'Peugeot Boxer minibus',
-    seats: 17,
-    licence: 'Section 19 minibus permit required',
-    bestFor: 'Large groups, camps, and trips needing extra kit capacity',
-    notes: 'Roof rack and towbar fitted — ideal when you need to bring trailers or extra luggage along.',
+    name: 'Rosie',
+    type: '6-seat minibus',
+    seats: 6,
+    licence: 'Standard car licence (category B)',
+    bestFor: 'Small groups, leader runs, and short trips',
+    notes: 'Our smallest vehicle — easy to drive and park, and no minibus permit needed.',
     image: null,
-    pricing: { evening: '£25', daily: '£65', weekend: '£100', weekly: '£300', extraMiles: '£1.25/mi', includedMiles: '100 miles' },
+    pricing: {
+      evening: { cost: '£30', includedMiles: '20 miles', extraMiles: '£1.10/mi' },
+      day: { cost: '£75', includedMiles: '50 miles', extraMiles: '£1.30/mi' },
+      weekend: { cost: '£125', includedMiles: '75 miles', extraMiles: '£1.30/mi' },
+      week: { cost: '£380', includedMiles: '200 miles', extraMiles: '£1.30/mi' },
+    },
   },
   {
     name: 'Elaine',
@@ -42,17 +56,42 @@ const VEHICLES: Vehicle[] = [
     bestFor: 'Day trips and away days where a permit holder isn\'t available',
     notes: 'Weighs 3,500 kg, so it can be driven on a standard car licence — no minibus permit needed.',
     image: '/images/vehicles/elaine.jpg',
-    pricing: { evening: '£20', daily: '£55', weekend: '£85', weekly: '£250', extraMiles: '£1.00/mi', includedMiles: '100 miles' },
+    pricing: {
+      evening: { cost: '£35', includedMiles: '20 miles', extraMiles: '£1.30/mi' },
+      day: { cost: '£75', includedMiles: '50 miles', extraMiles: '£1.30/mi' },
+      weekend: { cost: '£125', includedMiles: '75 miles', extraMiles: '£1.30/mi' },
+      week: { cost: '£380', includedMiles: '200 miles', extraMiles: '£1.30/mi' },
+    },
+  },
+  {
+    name: 'Brenda',
+    type: 'Peugeot Boxer minibus',
+    seats: 17,
+    licence: 'Section 19 minibus permit required',
+    bestFor: 'Large groups, camps, and trips needing extra kit capacity',
+    notes: 'Roof rack fitted — plenty of room for extra luggage and kit.',
+    image: null,
+    pricing: {
+      evening: { cost: '£40', includedMiles: '20 miles', extraMiles: '£1.50/mi' },
+      day: { cost: '£85', includedMiles: '50 miles', extraMiles: '£1.50/mi' },
+      weekend: { cost: '£140', includedMiles: '75 miles', extraMiles: '£1.50/mi' },
+      week: { cost: '£420', includedMiles: '200 miles', extraMiles: '£1.50/mi' },
+    },
   },
   {
     name: 'Alison',
     type: 'Ford Transit minibus',
-    seats: null,
+    seats: 17,
     licence: 'Section 19 minibus permit required',
     bestFor: 'Camps and big away days',
-    notes: 'The newest addition to our fleet — full details and seat count to follow shortly.',
+    notes: 'The newest addition to our fleet. Available to external hirers for week-long hires only.',
     image: '/images/vehicles/alison.jpg',
-    pricing: { evening: '£25', daily: '£65', weekend: '£100', weekly: '£300', extraMiles: '£1.25/mi', includedMiles: '100 miles' },
+    pricing: {
+      evening: null,
+      day: null,
+      weekend: null,
+      week: { cost: '£650', includedMiles: '200 miles', extraMiles: '£1.50/mi' },
+    },
   },
   {
     name: 'Gerald',
@@ -63,7 +102,12 @@ const VEHICLES: Vehicle[] = [
     bestFor: 'Camping kit, equipment, and gear that won\'t fit in a minibus',
     notes: 'Fitted with a solar panel and lithium battery, so it can power kit on site without a generator.',
     image: '/images/vehicles/gerald.jpg',
-    pricing: { evening: null, daily: null, weekend: '£35', weekly: '£100', extraMiles: null, includedMiles: null },
+    pricing: {
+      evening: null,
+      day: null,
+      weekend: { cost: '£100' },
+      week: { cost: '£150' },
+    },
   },
 ]
 
@@ -78,11 +122,11 @@ const REQUIREMENTS = [
   },
   {
     title: 'Minibus permit',
-    detail: 'A valid Section 19 permit is required to drive Brenda or Alison. Elaine can be driven on a standard car licence.',
+    detail: 'A valid Section 19 permit is required to drive Brenda or Alison. Rosie and Elaine can be driven on a standard car licence.',
   },
   {
-    title: 'Booking & confirmation',
-    detail: 'All hires are arranged online with email confirmation before the vehicle is released.',
+    title: 'Booking & towing',
+    detail: 'All hires are arranged online with email confirmation before the vehicle is released. Our minibuses are not authorised to tow on external hire.',
   },
 ]
 
@@ -151,7 +195,7 @@ export default function OurVehiclesPage() {
           The fleet
         </h2>
         <p className="mb-10 text-gray-500">
-          Four vehicles, each suited to a different job — from big camps to a quick day trip.
+          Five vehicles, each suited to a different job — from big camps to a quick day trip.
         </p>
         <ul role="list" className="grid gap-6 sm:grid-cols-2">
           {VEHICLES.map((v) => (
@@ -240,58 +284,51 @@ export default function OurVehiclesPage() {
           Hire rates
         </h2>
         <p className="mb-10 text-gray-500">
-          All rates include a mileage allowance shown below — extra miles are charged at the
-          rate listed.
+          Rates for external hire. Each hire length includes a mileage allowance — extra miles
+          are charged at the rate shown.
         </p>
 
         <div className="grid gap-6 sm:grid-cols-2">
           {VEHICLES.map((v) => (
             <div key={v.name} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-              <div className="flex items-baseline justify-between">
+              <div className="flex items-baseline justify-between gap-2">
                 <h3 className="text-lg font-bold text-scout-navy">{v.name}</h3>
-                <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">{v.type}</span>
+                <span className="text-right text-xs font-semibold uppercase tracking-widest text-gray-400">{v.type}</span>
               </div>
 
-              <dl className="mt-4 grid grid-cols-2 gap-y-3 text-sm sm:grid-cols-4">
-                <div>
-                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Evening</dt>
-                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.evening ?? '—'}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Daily</dt>
-                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.daily ?? '—'}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Weekend</dt>
-                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.weekend ?? '—'}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">Weekly</dt>
-                  <dd className="mt-0.5 font-semibold text-scout-navy">{v.pricing.weekly ?? '—'}</dd>
-                </div>
+              <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 text-sm sm:grid-cols-4">
+                {HIRE_PERIODS.map(({ key, label, duration }) => {
+                  const rate = v.pricing[key]
+                  return (
+                    <div key={key}>
+                      <dt className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                        {label}
+                        <span className="block font-normal normal-case tracking-normal">{duration}</span>
+                      </dt>
+                      {rate ? (
+                        <dd className="mt-0.5">
+                          <span className="block font-semibold text-scout-navy">{rate.cost}</span>
+                          {rate.includedMiles && (
+                            <span className="block text-xs text-gray-500">{rate.includedMiles} incl.</span>
+                          )}
+                          {rate.extraMiles && (
+                            <span className="block text-xs text-gray-500">then {rate.extraMiles}</span>
+                          )}
+                        </dd>
+                      ) : (
+                        <dd className="mt-0.5 text-xs text-gray-500">Not available</dd>
+                      )}
+                    </div>
+                  )
+                })}
               </dl>
-
-              {(v.pricing.includedMiles || v.pricing.extraMiles) && (
-                <p className="mt-4 border-t border-gray-100 pt-4 text-xs text-gray-500">
-                  {v.pricing.includedMiles && (
-                    <>
-                      <span className="font-semibold text-gray-600">{v.pricing.includedMiles}</span> included
-                      {v.pricing.extraMiles && <> · </>}
-                    </>
-                  )}
-                  {v.pricing.extraMiles && (
-                    <>
-                      <span className="font-semibold text-gray-600">{v.pricing.extraMiles}</span> after that
-                    </>
-                  )}
-                </p>
-              )}
             </div>
           ))}
         </div>
 
         <p className="mt-6 text-sm text-gray-500">
-          Evening hire covers 6–10pm. All hires require online booking and email confirmation.
+          Vehicles are not authorised to tow on external hire. All hires require online booking
+          and email confirmation.
         </p>
       </section>
       )}
