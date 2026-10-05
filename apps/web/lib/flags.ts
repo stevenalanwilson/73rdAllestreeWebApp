@@ -14,7 +14,7 @@ export const FLAGS = {
 
   /** Individual features within a page that can be hidden. */
   features: {
-    vehicleHireRates: false,
+    vehicleHireRates: true,
   },
 
   /** Whole Scout sections (and their unit pages) that can be hidden. */
